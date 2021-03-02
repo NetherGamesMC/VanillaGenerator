@@ -19,6 +19,7 @@ use muqsit\vanillagenerator\generator\noise\glowstone\PerlinOctaveGenerator;
 use muqsit\vanillagenerator\generator\noise\glowstone\SimplexOctaveGenerator;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeHeightManager;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
+use muqsit\vanillagenerator\generator\overworld\populator\CavePopulator;
 use muqsit\vanillagenerator\generator\overworld\populator\OverworldPopulator;
 use muqsit\vanillagenerator\generator\overworld\populator\SnowPopulator;
 use muqsit\vanillagenerator\generator\utils\WorldOctaves;
@@ -121,7 +122,7 @@ class OverworldGenerator extends VanillaGenerator{
 	public function __construct(int $seed, array $options = []){
 		parent::__construct($seed, Environment::OVERWORLD, null, $options);
 		$this->groundGen = new GroundGenerator();
-		$this->addPopulators(new OverworldPopulator(), new SnowPopulator());
+		$this->addPopulators(new CavePopulator(), new OverworldPopulator(), new SnowPopulator());
 	}
 
 	public function getGroundGenerator() : GroundGenerator{

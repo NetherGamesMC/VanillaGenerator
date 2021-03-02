@@ -14,14 +14,12 @@ use muqsit\vanillagenerator\generator\overworld\decorator\LakeDecorator;
 use muqsit\vanillagenerator\generator\overworld\decorator\MushroomDecorator;
 use muqsit\vanillagenerator\generator\overworld\decorator\PumpkinDecorator;
 use muqsit\vanillagenerator\generator\overworld\decorator\SugarCaneDecorator;
-use muqsit\vanillagenerator\generator\overworld\decorator\SurfaceCaveDecorator;
 use muqsit\vanillagenerator\generator\overworld\decorator\TallGrassDecorator;
 use muqsit\vanillagenerator\generator\overworld\decorator\TreeDecorator;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\FlowerDecoration;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\TreeDecoration;
 use muqsit\vanillagenerator\generator\overworld\decorator\UnderwaterDecorator;
 use muqsit\vanillagenerator\generator\Populator;
-use pocketmine\block\BlockFactory;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
@@ -102,9 +100,6 @@ class BiomePopulator implements Populator{
 	/** @var CactusDecorator */
 	protected $cactusDecorator;
 
-	/** @var SurfaceCaveDecorator */
-	protected $surfaceCaveDecorator;
-
 	/** @var Populator[] */
 	private $inGroundPopulators = [];
 
@@ -116,8 +111,6 @@ class BiomePopulator implements Populator{
 	 * wells; and vegetation.
 	 */
 	public function __construct(){
-		$block_factory = BlockFactory::getInstance();
-
 		$this->waterLakeDecorator = new LakeDecorator(VanillaBlocks::WATER()->getStillForm(), 4);
 		$this->lavaLakeDecorator = new LakeDecorator(VanillaBlocks::LAVA()->getStillForm(), 8, 8);
 		$this->orePopulator = new OrePopulator();
@@ -134,12 +127,10 @@ class BiomePopulator implements Populator{
 		$this->sugarCaneDecorator = new SugarCaneDecorator();
 		$this->pumpkinDecorator = new PumpkinDecorator();
 		$this->cactusDecorator = new CactusDecorator();
-		$this->surfaceCaveDecorator = new SurfaceCaveDecorator();
 
 		array_push($this->inGroundPopulators,
 			$this->waterLakeDecorator,
 			$this->lavaLakeDecorator,
-			$this->surfaceCaveDecorator,
 			$this->orePopulator,
 			$this->sandPatchDecorator,
 			$this->clayPatchDecorator,
@@ -165,7 +156,6 @@ class BiomePopulator implements Populator{
 	protected function initPopulators() : void{
 		$this->waterLakeDecorator->setAmount(1);
 		$this->lavaLakeDecorator->setAmount(1);
-		$this->surfaceCaveDecorator->setAmount(1);
 		$this->sandPatchDecorator->setAmount(3);
 		$this->sandPatchDecorator->setRadii(7, 2);
 		$this->sandPatchDecorator->setOverridableBlocks(VanillaBlocks::DIRT(), VanillaBlocks::GRASS());
