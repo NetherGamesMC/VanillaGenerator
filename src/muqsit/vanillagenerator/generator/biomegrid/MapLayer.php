@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\biomegrid;
 
+use muqsit\vanillagenerator\generator\biomegrid\utils\MapLayerPair;
 use muqsit\vanillagenerator\generator\Environment;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use muqsit\vanillagenerator\generator\overworld\WorldType;
@@ -11,28 +12,22 @@ use pocketmine\utils\Random;
 
 abstract class MapLayer{
 
-	/**
-	 * @param int $seed
-	 * @param int $environment
-	 * @param string $worldType
-	 * @return MapLayer[]|null[]
-	 */
-	public static function initialize(int $seed, int $environment, string $worldType) : array{
-		if($environment === Environment::OVERWORLD && $worldType === WorldType::FLAT){
-			return [new ConstantBiomeMapLayer($seed, BiomeIds::PLAINS), null];
+	public static function initialize(int $seed, int $environment, string $world_type) : MapLayerPair{
+		if($environment === Environment::OVERWORLD && $world_type === WorldType::FLAT){
+			return new MapLayerPair(new ConstantBiomeMapLayer($seed, BiomeIds::PLAINS), null);
 		}
 
 		if($environment === Environment::NETHER){
-			return [new ConstantBiomeMapLayer($seed, BiomeIds::HELL), null];
+			return new MapLayerPair(new ConstantBiomeMapLayer($seed, BiomeIds::HELL), null);
 		}
 
 		if($environment === Environment::THE_END){
-			return [new ConstantBiomeMapLayer($seed, BiomeIds::SKY), null];
+			return new MapLayerPair(new ConstantBiomeMapLayer($seed, BiomeIds::SKY), null);
 		}
 
 
 		$zoom = 2;
-		if($worldType === WorldType::LARGE_BIOMES){
+		if($world_type === WorldType::LARGE_BIOMES){
 			$zoom = 4;
 		}
 
@@ -51,9 +46,9 @@ abstract class MapLayer{
 
 		$layer = new DeepOceanMapLayer($seed + 4, $layer);
 
-		$layerMountains = new BiomeVariationMapLayer($seed + 200, $layer);
+		$layer_mountains = new BiomeVariationMapLayer($seed + 200, $layer);
 		for($i = 0; $i < 2; ++$i){
-			$layerMountains = new ZoomMapLayer($seed + 200 + $i, $layerMountains);
+			$layer_mountains = new ZoomMapLayer($seed + 200 + $i, $layer_mountains);
 		}
 
 		$layer = new BiomeMapLayer($seed + 5, $layer);
@@ -62,7 +57,7 @@ abstract class MapLayer{
 		}
 
 		$layer = new BiomeEdgeMapLayer($seed + 200, $layer);
-		$layer = new BiomeVariationMapLayer($seed + 200, $layer, $layerMountains);
+		$layer = new BiomeVariationMapLayer($seed + 200, $layer, $layer_mountains);
 		$layer = new RarePlainsMapLayer($seed + 201, $layer);
 		$layer = new ZoomMapLayer($seed + 300, $layer);
 		$layer = new ErosionMapLayer($seed + 6, $layer);
@@ -73,30 +68,30 @@ abstract class MapLayer{
 			$layer = new ZoomMapLayer($seed + 500 + $i, $layer);
 		}
 
-		$layerRiver = $layerMountains;
-		$layerRiver = new ZoomMapLayer($seed + 300, $layerRiver);
-		$layerRiver = new ZoomMapLayer($seed + 400, $layerRiver);
+		$layer_river = $layer_mountains;
+		$layer_river = new ZoomMapLayer($seed + 300, $layer_river);
+		$layer_river = new ZoomMapLayer($seed + 400, $layer_river);
 		for($i = 0; $i < $zoom; ++$i){
-			$layerRiver = new ZoomMapLayer($seed + 500 + $i, $layerRiver);
+			$layer_river = new ZoomMapLayer($seed + 500 + $i, $layer_river);
 		}
-		$layerRiver = new RiverMapLayer($seed + 10, $layerRiver);
-		$layer = new RiverMapLayer($seed + 1000, $layerRiver, $layer);
+		$layer_river = new RiverMapLayer($seed + 10, $layer_river);
+		$layer = new RiverMapLayer($seed + 1000, $layer_river, $layer);
 
-		$layerLowerRes = $layer;
+		$layer_lower_res = $layer;
 		for($i = 0; $i < 2; ++$i){
 			$layer = new ZoomMapLayer($seed + 2000 + $i, $layer);
 		}
 
 		$layer = new SmoothMapLayer($seed + 1001, $layer);
 
-		return [$layer, $layerLowerRes];
+		return new MapLayerPair($layer, $layer_lower_res);
 	}
 
 	/** @var Random */
-	private $random;
+	private Random $random;
 
 	/** @var int */
-	private $seed;
+	private int $seed;
 
 	public function __construct(int $seed){
 		$this->random = new Random();
@@ -115,9 +110,9 @@ abstract class MapLayer{
 	/**
 	 * @param int $x
 	 * @param int $z
-	 * @param int $sizeX
-	 * @param int $sizeZ
+	 * @param int $size_x
+	 * @param int $size_z
 	 * @return int[]
 	 */
-	abstract public function generateValues(int $x, int $z, int $sizeX, int $sizeZ) : array;
+	abstract public function generateValues(int $x, int $z, int $size_x, int $size_z) : array;
 }

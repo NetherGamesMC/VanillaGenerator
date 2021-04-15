@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator;
 
 use muqsit\vanillagenerator\generator\biomegrid\MapLayer;
+use muqsit\vanillagenerator\generator\biomegrid\utils\MapLayerPair;
 use muqsit\vanillagenerator\generator\overworld\WorldType;
 use muqsit\vanillagenerator\generator\utils\WorldOctaves;
 use pocketmine\world\ChunkManager;
@@ -22,39 +23,39 @@ abstract class VanillaGenerator extends Generator{
 	 *
 	 * @phpstan-var T
 	 */
-	private $octaveCache = null;
+	private ?WorldOctaves $octave_cache = null;
 
 	/** @var Populator[] */
-	private $populators = [];
+	private array $populators = [];
 
-	/** @var MapLayer[] */
-	private $biomeGrid;
+	/** @var MapLayerPair */
+	private MapLayerPair $biome_grid;
 
 	public function __construct(int $seed, int $environment, ?string $world_type = null, array $options = []){
 		parent::__construct($seed, $options);
-		$this->biomeGrid = MapLayer::initialize($seed, $environment, $world_type ?? WorldType::NORMAL);
+		$this->biome_grid = MapLayer::initialize($seed, $environment, $world_type ?? WorldType::NORMAL);
 	}
 
 	/**
 	 * @param int $x
 	 * @param int $z
-	 * @param int $sizeX
-	 * @param int $sizeZ
+	 * @param int $size_x
+	 * @param int $size_z
 	 * @return int[]
 	 */
-	public function getBiomeGridAtLowerRes(int $x, int $z, int $sizeX, int $sizeZ) : array{
-		return $this->biomeGrid[1]->generateValues($x, $z, $sizeX, $sizeZ);
+	public function getBiomeGridAtLowerRes(int $x, int $z, int $size_x, int $size_z) : array{
+		return $this->biome_grid->low_resolution->generateValues($x, $z, $size_x, $size_z);
 	}
 
 	/**
 	 * @param int $x
 	 * @param int $z
-	 * @param int $sizeX
-	 * @param int $sizeZ
+	 * @param int $size_x
+	 * @param int $size_z
 	 * @return int[]
 	 */
-	public function getBiomeGrid(int $x, int $z, int $sizeX, int $sizeZ) : array{
-		return $this->biomeGrid[0]->generateValues($x, $z, $sizeX, $sizeZ);
+	public function getBiomeGrid(int $x, int $z, int $size_x, int $size_z) : array{
+		return $this->biome_grid->high_resolution->generateValues($x, $z, $size_x, $size_z);
 	}
 
 	protected function addPopulators(Populator ...$populators) : void{
@@ -70,15 +71,15 @@ abstract class VanillaGenerator extends Generator{
 
 	public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ) : void{
 		$biomes = new VanillaBiomeGrid();
-		$biomeValues = $this->biomeGrid[0]->generateValues($chunkX * 16, $chunkZ * 16, 16, 16);
-		for($i = 0, $biomeValues_c = count($biomeValues); $i < $biomeValues_c; ++$i){
-			$biomes->biomes[$i] = $biomeValues[$i];
+		$biome_values = $this->biome_grid->high_resolution->generateValues($chunkX * 16, $chunkZ * 16, 16, 16);
+		for($i = 0, $biome_values_c = count($biome_values); $i < $biome_values_c; ++$i){
+			$biomes->biomes[$i] = $biome_values[$i];
 		}
 
 		$this->generateChunkData($world, $chunkX, $chunkZ, $biomes);
 	}
 
-	abstract protected function generateChunkData(ChunkManager $world, int $chunkX, int $chunkZ, VanillaBiomeGrid $biomes) : void;
+	abstract protected function generateChunkData(ChunkManager $world, int $chunk_x, int $chunk_z, VanillaBiomeGrid $biomes) : void;
 
 	/**
 	 * @return WorldOctaves
@@ -86,7 +87,7 @@ abstract class VanillaGenerator extends Generator{
 	 * @phpstan-return T
 	 */
 	final protected function getWorldOctaves() : WorldOctaves{
-		return $this->octaveCache ??= $this->createWorldOctaves();
+		return $this->octave_cache ??= $this->createWorldOctaves();
 	}
 
 	/**
@@ -96,15 +97,15 @@ abstract class VanillaGenerator extends Generator{
 		return $this->populators;
 	}
 
-	final public function populateChunk(ChunkManager $world, int $chunkX, int $chunkZ) : void{
+	public function populateChunk(ChunkManager $world, int $chunk_x, int $chunk_z) : void{
 		/** @var Chunk $chunk */
-		$chunk = $world->getChunk($chunkX, $chunkZ);
+		$chunk = $world->getChunk($chunk_x, $chunk_z);
 		foreach($this->populators as $populator){
-			$populator->populate($world, $this->random, $chunkX, $chunkZ, $chunk);
+			$populator->populate($world, $this->random, $chunk_x, $chunk_z, $chunk);
 		}
 	}
 
-	public function getWorldHeight() : int{
+	public function getMaxY() : int{
 		return World::Y_MAX;
 	}
 }
