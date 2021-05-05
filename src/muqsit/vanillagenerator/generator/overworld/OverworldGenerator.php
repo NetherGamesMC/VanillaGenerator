@@ -113,14 +113,11 @@ class OverworldGenerator extends VanillaGenerator{
 	protected const DENSITY_FILL_SEA_MODE = 0;
 	protected const DENSITY_FILL_OFFSET = 0.0;
 
-	/** @var GroundGenerator */
 	private GroundGenerator $ground_gen;
-
-	/** @var string */
 	private string $type = WorldType::NORMAL;
 
-	public function __construct(int $seed, array $options = []){
-		parent::__construct($seed, Environment::OVERWORLD, null, $options);
+	public function __construct(int $seed, string $preset){
+		parent::__construct($seed, Environment::OVERWORLD, null, $preset);
 		$this->ground_gen = new GroundGenerator();
 		$this->addPopulators(new CavePopulator(), new OverworldPopulator(), new SnowPopulator());
 	}

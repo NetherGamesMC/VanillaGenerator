@@ -39,11 +39,10 @@ class NetherGenerator extends VanillaGenerator{
 		return ($k << 6) | ($j << 3) | $i;
 	}
 
-	/** @var int */
 	protected int $bedrock_roughness = 5;
 
-	public function __construct(int $seed, array $options = []){
-		parent::__construct($seed, Environment::NETHER, null, $options);
+	public function __construct(int $seed, string $preset){
+		parent::__construct($seed, Environment::NETHER, null, $preset);
 		$this->addPopulators(new NetherPopulator($this->getMaxY())); // This isn't faithful to original code. Was $world->getWorldHeight()
 	}
 
