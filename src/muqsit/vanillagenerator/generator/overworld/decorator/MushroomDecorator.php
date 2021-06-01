@@ -34,11 +34,13 @@ class MushroomDecorator extends Decorator{
 
 	public function setUseFixedHeightRange() : MushroomDecorator{
 		$this->fixed_height_range = true;
+
 		return $this;
 	}
 
 	public function setDensity(float $density) : MushroomDecorator{
 		$this->density = $density;
+
 		return $this;
 	}
 
@@ -67,7 +69,7 @@ class MushroomDecorator extends Decorator{
 							$can_place_shroom = ($block->getLightLevel() < 13);
 							break;
 						case BlockLegacyIds::DIRT:
-							if($below_below->getMeta() === BlockLegacyMetadata::DIRT_NORMAL){
+							if($below_below->getMeta() === BlockLegacyMetadata::DIRT_FLAG_COARSE){
 								$can_place_shroom = $block->getLightLevel() < 13;
 							}else{
 								$can_place_shroom = false;

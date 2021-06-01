@@ -27,8 +27,8 @@ class LakeDecorator extends Decorator{
 	 * Creates a lake decorator.
 	 *
 	 * @param Block $type
-	 * @param int $rarity
-	 * @param int $base_offset
+	 * @param int   $rarity
+	 * @param int   $base_offset
 	 */
 	public function __construct(Block $type, int $rarity, int $base_offset = 0){
 		$this->type = $type;

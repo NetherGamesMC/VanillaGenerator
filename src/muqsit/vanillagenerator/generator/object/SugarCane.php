@@ -41,7 +41,7 @@ class SugarCane extends TerrainObject{
 			if($block_id === BlocKLegacyIds::SUGARCANE_BLOCK
 				|| $block_id === BlocKLegacyIds::GRASS
 				|| $block_id === BlocKLegacyIds::SAND
-				|| ($block_id === BlocKLegacyIds::DIRT && $block->getMeta() === BlockLegacyMetadata::DIRT_NORMAL)
+				|| ($block_id === BlocKLegacyIds::DIRT && $block->getMeta() === BlockLegacyMetadata::DIRT_FLAG_COARSE)
 			){
 				$cane_block = $world->getBlockAt($source_x, $source_y + $n, $source_z);
 				if($cane_block->getId() !== BlockLegacyIds::AIR && $world->getBlockAt($source_x, $source_y + $n + 1, $source_z)->getId() !== BlockLegacyIds::AIR){
@@ -51,6 +51,7 @@ class SugarCane extends TerrainObject{
 				$world->setBlockAt($source_x, $source_y + $n, $source_z, VanillaBlocks::SUGARCANE());
 			}
 		}
+
 		return true;
 	}
 }

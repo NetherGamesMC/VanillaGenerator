@@ -37,6 +37,7 @@ class TallGrass extends TerrainObject{
 				$succeeded = true;
 			}
 		}
+
 		return $succeeded;
 	}
 }

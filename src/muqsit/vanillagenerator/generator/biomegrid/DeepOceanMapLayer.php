@@ -49,6 +49,7 @@ class DeepOceanMapLayer extends MapLayer{
 				}
 			}
 		}
+
 		return $final_values;
 	}
 }

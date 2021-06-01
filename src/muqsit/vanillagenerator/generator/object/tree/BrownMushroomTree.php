@@ -19,7 +19,7 @@ class BrownMushroomTree extends GenericTree{
 	/**
 	 * Initializes this mushroom with a random height, preparing it to attempt to generate.
 	 *
-	 * @param Random $random
+	 * @param Random           $random
 	 * @param BlockTransaction $transaction
 	 */
 	public function __construct(Random $random, BlockTransaction $transaction){
@@ -34,6 +34,7 @@ class BrownMushroomTree extends GenericTree{
 
 	public function canPlaceOn(Block $soil) : bool{
 		$id = $soil->getId();
+
 		return $id === BlockLegacyIds::GRASS || $id === BlockLegacyIds::DIRT || $id === BlockLegacyIds::MYCELIUM;
 	}
 
@@ -65,6 +66,7 @@ class BrownMushroomTree extends GenericTree{
 				}
 			}
 		}
+
 		return true;
 	}
 

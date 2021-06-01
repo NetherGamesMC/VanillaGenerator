@@ -29,7 +29,7 @@ class GenericTree extends TerrainObject{
 	/**
 	 * Initializes this tree with a random height, preparing it to attempt to generate.
 	 *
-	 * @param Random $random the PRNG
+	 * @param Random           $random the PRNG
 	 * @param BlockTransaction $transaction the BlockTransaction used to check for space and to fill in wood and leaves
 	 */
 	public function __construct(Random $random, BlockTransaction $transaction){
@@ -70,6 +70,7 @@ class GenericTree extends TerrainObject{
 
 	/**
 	 * Checks whether this tree fits under the upper world limit.
+	 *
 	 * @param int $base_height the height of the base of the trunk
 	 *
 	 * @return bool whether this tree can grow without exceeding block height 255; false otherwise.
@@ -80,21 +81,25 @@ class GenericTree extends TerrainObject{
 
 	/**
 	 * Checks whether this tree can grow on top of the given block.
+	 *
 	 * @param Block $soil the block we're growing on
+	 *
 	 * @return bool whether this tree can grow on the type of block below it; false otherwise
 	 */
 	public function canPlaceOn(Block $soil) : bool{
 		$type = $soil->getId();
+
 		return $type === BlockLegacyIds::GRASS || $type === BlockLegacyIds::DIRT || $type === BlockLegacyIds::FARMLAND;
 	}
 
 	/**
 	 * Checks whether this tree has enough space to grow.
 	 *
-	 * @param int $base_x the X coordinate of the base of the trunk
-	 * @param int $base_y the Y coordinate of the base of the trunk
-	 * @param int $base_z the Z coordinate of the base of the trunk
+	 * @param int          $base_x the X coordinate of the base of the trunk
+	 * @param int          $base_y the Y coordinate of the base of the trunk
+	 * @param int          $base_z the Z coordinate of the base of the trunk
 	 * @param ChunkManager $world the world to grow in
+	 *
 	 * @return bool whether this tree has space to grow
 	 */
 	public function canPlace(int $base_x, int $base_y, int $base_z, ChunkManager $world) : bool{
@@ -121,6 +126,7 @@ class GenericTree extends TerrainObject{
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -129,10 +135,11 @@ class GenericTree extends TerrainObject{
 	 * BlockStateDelegate} is instructed to set blocks to wood and leaves.
 	 *
 	 * @param ChunkManager $world
-	 * @param Random $random
-	 * @param int $source_x
-	 * @param int $source_y
-	 * @param int $source_z
+	 * @param Random       $random
+	 * @param int          $source_x
+	 * @param int          $source_y
+	 * @param int          $source_z
+	 *
 	 * @return bool whether successfully grown
 	 */
 	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
@@ -164,6 +171,7 @@ class GenericTree extends TerrainObject{
 		// block below trunk is always dirt
 		$dirt = VanillaBlocks::DIRT();
 		$this->transaction->addBlockAt($source_x, $source_y - 1, $source_z, $dirt);
+
 		return true;
 	}
 
@@ -171,10 +179,11 @@ class GenericTree extends TerrainObject{
 	 * Returns whether any of {@link #canHeightFit(int)}, {@link #canPlace(int, int, int, World)} or
 	 * {@link #canPlaceOn(BlockState)} prevent this tree from generating.
 	 *
-	 * @param int $base_x the X coordinate of the base of the trunk
-	 * @param int $base_y the Y coordinate of the base of the trunk
-	 * @param int $base_z the Z coordinate of the base of the trunk
+	 * @param int          $base_x the X coordinate of the base of the trunk
+	 * @param int          $base_y the Y coordinate of the base of the trunk
+	 * @param int          $base_z the Z coordinate of the base of the trunk
 	 * @param ChunkManager $world the world to grow in
+	 *
 	 * @return bool whether any of the checks prevent us from generating, false otherwise
 	 */
 	protected function cannotGenerateAt(int $base_x, int $base_y, int $base_z, ChunkManager $world) : bool{
@@ -186,10 +195,10 @@ class GenericTree extends TerrainObject{
 	/**
 	 * Replaces the block at a location with the given new one, if it is air or leaves.
 	 *
-	 * @param int $x the x coordinate
-	 * @param int $y the y coordinate
-	 * @param int $z the z coordinate
-	 * @param Block $new_material the new block type
+	 * @param int          $x the x coordinate
+	 * @param int          $y the y coordinate
+	 * @param int          $z the z coordinate
+	 * @param Block        $new_material the new block type
 	 * @param ChunkManager $world the world we are generating in
 	 */
 	protected function replaceIfAirOrLeaves(int $x, int $y, int $z, Block $new_material, ChunkManager $world) : void{

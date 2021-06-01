@@ -14,7 +14,7 @@ final class BiomeEdgeEntry{
 
 	/**
 	 * @param array<int, int> $mapping
-	 * @param int[] $value
+	 * @param int[]           $value
 	 */
 	public function __construct(array $mapping, ?array $value = null){
 		$this->key = $mapping;

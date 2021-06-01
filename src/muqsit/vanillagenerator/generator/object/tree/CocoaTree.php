@@ -33,6 +33,7 @@ class CocoaTree extends JungleTree{
 		$this->addVinesOnLeaves($source_x, $source_y, $source_z, $world, $random);
 		// and maybe place some cocoa
 		$this->addCocoa($source_x, $source_y, $source_z, $random);
+
 		return true;
 	}
 

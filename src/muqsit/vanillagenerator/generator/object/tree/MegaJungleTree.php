@@ -20,7 +20,8 @@ class MegaJungleTree extends GenericTree{
 
 	/**
 	 * Initializes this tree with a random height, preparing it to attempt to generate.
-	 * @param Random $random
+	 *
+	 * @param Random           $random
 	 * @param BlockTransaction $transaction
 	 */
 	public function __construct(Random $random, BlockTransaction $transaction){
@@ -31,6 +32,7 @@ class MegaJungleTree extends GenericTree{
 
 	public function canPlaceOn(Block $soil) : bool{
 		$id = $soil->getId();
+
 		return $id === BlockLegacyIds::GRASS || $id === BlockLegacyIds::DIRT;
 	}
 
@@ -57,6 +59,7 @@ class MegaJungleTree extends GenericTree{
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -98,6 +101,7 @@ class MegaJungleTree extends GenericTree{
 
 		// blocks below trunk are always dirt
 		$this->generateDirtBelowTrunk($source_x, $source_y, $source_z);
+
 		return true;
 	}
 

@@ -91,6 +91,7 @@ class ZoomMapLayer extends MapLayer{
 		}
 
 		$values = [$upper_left_val, $upper_right_val, $lower_left_val, $lower_right_val];
+
 		return $values[$this->nextInt(count($values))];
 	}
 }

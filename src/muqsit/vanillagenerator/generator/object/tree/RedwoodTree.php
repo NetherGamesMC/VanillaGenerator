@@ -60,6 +60,7 @@ class RedwoodTree extends GenericTree{
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -109,6 +110,7 @@ class RedwoodTree extends GenericTree{
 		}
 
 		$this->transaction->addBlockAt($source_x, $source_y - 1, $source_z, VanillaBlocks::DIRT());
+
 		return true;
 	}
 }

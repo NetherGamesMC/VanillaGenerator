@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\overworld\biome;
 
-use muqsit\vanillagenerator\generator\noise\glowstone\SimplexOctaveGenerator;
-use pocketmine\utils\Random;
-
 final class BiomeClimateManager{
 
-	private static SimplexOctaveGenerator $noise_gen;
+	private static $noise_gen;
 
 	/** @var BiomeClimate */
 	private static BiomeClimate $default;
@@ -18,7 +15,7 @@ final class BiomeClimateManager{
 	private static array $climates = [];
 
 	public static function init() : void{
-		self::$noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(1234), 1, 0, 0, 0);
+		self::$noise_gen = \SimplexOctaveGenerator::fromRandomAndOctaves(1234, 1, 0, 0, 0);
 		self::$noise_gen->setScale(1 / 8.0);
 
 		self::$default = new BiomeClimate(0.5, 0.5, true);
@@ -138,6 +135,7 @@ final class BiomeClimateManager{
 		$temp = self::get($biome)->getTemperature();
 		if($y > 64){
 			$variation = self::$noise_gen->noise($x, $z, 0, 0.5, 2.0, false) * 4.0;
+
 			return $temp - ($variation + (float) ($y - 64)) * 0.05 / 30.0;
 		}
 

@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator\overworld\populator;
 
 use muqsit\vanillagenerator\generator\Populator;
-use muqsit\vanillagenerator\generator\utils\CaveRandom;
 use pocketmine\block\Block;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
@@ -32,12 +31,12 @@ class CavePopulator implements Populator
 	// Default: 10
 	const CAVE_LIQUID_ALTITUDE = 10;
 
-	/** @var CaveRandom */
-	private CaveRandom $random;
+	/** @var Random */
+	private Random $random;
 
 	public function populate(ChunkManager $world, Random $random, int $chunkX, int $chunkZ, Chunk $chunk): void
 	{
-		$this->random = new CaveRandom($random->getSeed());
+		$this->random = new Random($random->getSeed());
 
 		$allCondition = [];
 		for ($x = 0; $x < 16; $x++) {
@@ -46,8 +45,8 @@ class CavePopulator implements Populator
 			}
 		}
 
-		$j = $this->random->nextLong();
-		$k = $this->random->nextLong();
+		$j = self::randomLong($this->random);
+		$k = self::randomLong($this->random);
 
 		$chunk = $world->getChunk($chunkX, $chunkZ);
 		for ($currentChunkX = $chunkX - self::CAVE_RANGE; $currentChunkX <= $chunkX + self::CAVE_RANGE; $currentChunkX++) {
@@ -92,7 +91,7 @@ class CavePopulator implements Populator
 			$numAddTunnelCalls = 1;
 
 			if ($addRooms && $this->random->nextBoundedInt(4) == 0) {
-				$this->addRoom($this->random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $carvingMask);
+				$this->addRoom(self::randomLong($this->random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $carvingMask);
 				$numAddTunnelCalls += $this->random->nextBoundedInt(4);
 			}
 
@@ -108,7 +107,7 @@ class CavePopulator implements Populator
 					$width *= $this->random->nextFloat() * $this->random->nextFloat() * 3.0 + 1.0;
 				}
 
-				$this->addTunnel($this->random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $width, $yaw, $pitch, 0, 0, 1.0, $carvingMask);
+				$this->addTunnel(self::randomLong($this->random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $width, $yaw, $pitch, 0, 0, 1.0, $carvingMask);
 			}
 		}
 	}
@@ -120,7 +119,7 @@ class CavePopulator implements Populator
 
 	private function addTunnel(int $seed, Chunk $chunk, int $refChunkX, int $refChunkZ, float $caveStartX, float $caveStartY, float $caveStartZ, float $width, float $yaw, float $pitch, int $startCounter, int $endCounter, float $heightModifier, array $carvingMask = []): void
 	{
-		$random = new CaveRandom($seed);
+		$random = new Random($seed);
 
 		// Center block of the origin chunk
 		$originBlockX = ($refChunkX * 16 + 8);
@@ -185,8 +184,8 @@ class CavePopulator implements Populator
 			$yawModifier = $yawModifier + ($random->nextFloat() - $random->nextFloat()) * $random->nextFloat() * 4.0;
 
 			if ((!$comesFromRoom) && ($startCounter === $randomCounterValue) && ($width > 1.0) && ($endCounter > 0)) {
-				$this->addTunnel($random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw - ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
-				$this->addTunnel($random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw + ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
+				$this->addTunnel(self::randomLong($random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw - ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
+				$this->addTunnel(self::randomLong($random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw + ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
 
 				return;
 			}
@@ -309,5 +308,9 @@ class CavePopulator implements Populator
 		// Only accept gravel and sand if water is not directly above it
 		return ($block->getId() === BlockLegacyIds::SAND || $block->getId() === BlockLegacyIds::GRAVEL)
 			&& !($blockAbove instanceof Liquid);
+	}
+
+	private static function randomLong(Random $random): int{
+		return (($random->nextSignedInt()) << 32) | $random->nextSignedInt();
 	}
 }

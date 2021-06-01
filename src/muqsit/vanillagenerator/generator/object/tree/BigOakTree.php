@@ -36,8 +36,10 @@ class BigOakTree extends GenericTree{
 		}
 		if($blocks > 5){
 			$this->height = $blocks;
+
 			return true;
 		}
+
 		return false;
 	}
 
@@ -120,15 +122,17 @@ class BigOakTree extends GenericTree{
 				}
 			}
 		}
+
 		return -1;
 	}
 
 	/**
-	 * @param int $block_x
-	 * @param int $block_y
-	 * @param int $block_z
+	 * @param int          $block_x
+	 * @param int          $block_y
+	 * @param int          $block_z
 	 * @param ChunkManager $world
-	 * @param Random $random
+	 * @param Random       $random
+	 *
 	 * @return LeafNode[]
 	 */
 	private function generateLeafNodes(int $block_x, int $block_y, int $block_z, ChunkManager $world, Random $random) : array{
@@ -166,6 +170,7 @@ class BigOakTree extends GenericTree{
 				}
 			}
 		}
+
 		return $leaf_nodes;
 	}
 }

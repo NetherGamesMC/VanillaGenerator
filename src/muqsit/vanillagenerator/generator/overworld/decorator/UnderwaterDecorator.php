@@ -35,11 +35,13 @@ class UnderwaterDecorator extends Decorator{
 	 *
 	 * @param int $horiz_radius the maximum radius on the horizontal plane
 	 * @param int $vert_radius the depth above and below the center
+	 *
 	 * @return UnderwaterDecorator this, updated
 	 */
 	final public function setRadii(int $horiz_radius, int $vert_radius) : UnderwaterDecorator{
 		$this->horiz_radius = $horiz_radius;
 		$this->vert_radius = $vert_radius;
+
 		return $this;
 	}
 
@@ -47,6 +49,7 @@ class UnderwaterDecorator extends Decorator{
 		foreach($overridables as $overridable){
 			$this->overridables[] = $overridable->getFullId();
 		}
+
 		return $this;
 	}
 

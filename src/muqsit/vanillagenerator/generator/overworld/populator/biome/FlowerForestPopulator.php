@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\overworld\populator\biome;
 
-use muqsit\vanillagenerator\generator\noise\bukkit\OctaveGenerator;
-use muqsit\vanillagenerator\generator\noise\glowstone\SimplexOctaveGenerator;
 use muqsit\vanillagenerator\generator\object\Flower;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use pocketmine\block\Block;
@@ -34,14 +32,14 @@ class FlowerForestPopulator extends ForestPopulator{
 		];
 	}
 
-	private OctaveGenerator $noise_gen;
+	private \SimplexOctaveGenerator $noise_gen;
 
 	protected function initPopulators() : void{
 		parent::initPopulators();
 		$this->tree_decorator->setAmount(6);
 		$this->flower_decorator->setAmount(0);
 		$this->double_plant_lowering_amount = 1;
-		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(2345), 1, 0, 0, 0);
+		$this->noise_gen = \SimplexOctaveGenerator::fromRandomAndOctaves(2345, 1, 0, 0, 0);
 		$this->noise_gen->setScale(1 / 48.0);
 	}
 

@@ -46,6 +46,7 @@ class MegaRedwoodTree extends MegaJungleTree{
 
 		// blocks below trunk are always dirt
 		$this->generateDirtBelowTrunk($source_x, $source_y, $source_z);
+
 		return true;
 	}
 

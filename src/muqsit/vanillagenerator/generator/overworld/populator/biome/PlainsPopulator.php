@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\overworld\populator\biome;
 
-use muqsit\vanillagenerator\generator\noise\bukkit\OctaveGenerator;
-use muqsit\vanillagenerator\generator\noise\glowstone\SimplexOctaveGenerator;
 use muqsit\vanillagenerator\generator\object\DoubleTallPlant;
 use muqsit\vanillagenerator\generator\object\Flower;
 use muqsit\vanillagenerator\generator\object\TallGrass;
@@ -15,6 +13,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use SimplexOctaveGenerator;
 
 class PlainsPopulator extends BiomePopulator{
 
@@ -41,11 +40,11 @@ class PlainsPopulator extends BiomePopulator{
 		];
 	}
 
-	private OctaveGenerator $noise_gen;
+	private $noise_gen;
 
 	public function __construct(){
 		parent::__construct();
-		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(2345), 1, 0, 0, 0);
+		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(2345, 1, 0, 0, 0);
 		$this->noise_gen->setScale(1 / 200.0);
 	}
 

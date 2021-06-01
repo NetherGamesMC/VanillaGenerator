@@ -68,6 +68,7 @@ class BiomeVariationMapLayer extends MapLayer{
 	 * @param int $z the lowest z coordinate
 	 * @param int $size_x the x coordinate range
 	 * @param int $size_z the z coordinate range
+	 *
 	 * @return int[] a flattened array of generated values
 	 */
 	public function generateRandomValues(int $x, int $z, int $size_x, int $size_z) : array{
@@ -94,6 +95,7 @@ class BiomeVariationMapLayer extends MapLayer{
 	 * @param int $z the lowest z coordinate
 	 * @param int $size_x the x coordinate range
 	 * @param int $size_z the z coordinate range
+	 *
 	 * @return int[] a flattened array of generated values
 	 */
 	public function mergeValues(int $x, int $z, int $size_x, int $size_z) : array{

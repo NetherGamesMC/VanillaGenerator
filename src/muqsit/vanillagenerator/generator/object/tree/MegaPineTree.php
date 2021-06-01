@@ -22,6 +22,7 @@ class MegaPineTree extends MegaRedwoodTree{
 		if($generated){
 			$this->generatePodzol($source_x, $source_y, $source_z, $world, $random);
 		}
+
 		return $generated;
 	}
 

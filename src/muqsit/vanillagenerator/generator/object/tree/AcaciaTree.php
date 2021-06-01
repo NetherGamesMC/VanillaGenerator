@@ -22,6 +22,7 @@ class AcaciaTree extends GenericTree{
 
 	public function canPlaceOn(Block $soil) : bool{
 		$type = $soil->getId();
+
 		return $type === BlockLegacyIds::GRASS || $type === BlockLegacyIds::DIRT;
 	}
 

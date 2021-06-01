@@ -66,7 +66,9 @@ class StoneBoulder extends TerrainObject{
 			$source_z += $random->nextBoundedInt(4) - 1;
 			$source_y -= $random->nextBoundedInt(2);
 		}
+
 		return true;
 	}
 }
+
 StoneBoulder::init();

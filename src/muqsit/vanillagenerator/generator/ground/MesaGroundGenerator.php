@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\ground;
 
-use muqsit\vanillagenerator\generator\noise\glowstone\SimplexOctaveGenerator;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
+use SimplexOctaveGenerator;
 
 class MesaGroundGenerator extends GroundGenerator{
 
@@ -37,13 +37,13 @@ class MesaGroundGenerator extends GroundGenerator{
 	private function initialize(int $seed) : void{
 		if($seed !== $this->seed || $this->color_noise === null || $this->canyon_scale_noise === null || $this->canyon_height_noise === null){
 			$random = new Random($seed);
-			$this->color_noise = SimplexOctaveGenerator::fromRandomAndOctaves($random, 1, 0, 0, 0);
+			$this->color_noise = SimplexOctaveGenerator::fromRandomAndOctaves($seed, 1, 0, 0, 0);
 			$this->color_noise->setScale(1 / 512.0);
 			$this->initializeColorLayers($random);
 
-			$this->canyon_height_noise = SimplexOctaveGenerator::fromRandomAndOctaves($random, 4, 0, 0, 0);
+			$this->canyon_height_noise = SimplexOctaveGenerator::fromRandomAndOctaves($seed, 4, 0, 0, 0);
 			$this->canyon_height_noise->setScale(1 / 4.0);
-			$this->canyon_scale_noise = SimplexOctaveGenerator::fromRandomAndOctaves($random, 1, 0, 0, 0);
+			$this->canyon_scale_noise = SimplexOctaveGenerator::fromRandomAndOctaves($seed, 1, 0, 0, 0);
 			$this->canyon_scale_noise->setScale(1 / 512.0);
 			$this->seed = $seed;
 		}
@@ -81,7 +81,7 @@ class MesaGroundGenerator extends GroundGenerator{
 		$ground_set = false;
 
 		$grass = VanillaBlocks::GRASS();
-		$coarse_dirt = VanillaBlocks::COARSE_DIRT();
+		$coarse_dirt = VanillaBlocks::DIRT()->setCoarse(true);
 
 		for($y = 255; $y >= 0; --$y){
 			if($y < (int) $bryce_canyon_height && $world->getBlockAt($x, $y, $z)->getId() === BlockLegacyIds::AIR){

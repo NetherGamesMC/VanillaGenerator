@@ -74,6 +74,7 @@ class ShoreMapLayer extends MapLayer{
 				}
 			}
 		}
+
 		return $final_values;
 	}
 }

@@ -34,6 +34,7 @@ class DarkOakTree extends GenericTree{
 
 	public function canPlaceOn(Block $soil) : bool{
 		$id = $soil->getId();
+
 		return $id === BlockLegacyIds::GRASS || $id === BlockLegacyIds::DIRT;
 	}
 
@@ -148,6 +149,7 @@ class DarkOakTree extends GenericTree{
 		$this->transaction->addBlockAt($source_x, $source_y - 1, $source_z + 1, $dirt);
 		$this->transaction->addBlockAt($source_x + 1, $source_y - 1, $source_z, $dirt);
 		$this->transaction->addBlockAt($source_x + 1, $source_y - 1, $source_z + 1, $dirt);
+
 		return true;
 	}
 

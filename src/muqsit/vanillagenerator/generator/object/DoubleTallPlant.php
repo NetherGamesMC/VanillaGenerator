@@ -21,10 +21,11 @@ class DoubleTallPlant extends TerrainObject{
 	 * Generates up to 64 plants around the given point.
 	 *
 	 * @param ChunkManager $world
-	 * @param Random $random
-	 * @param int $source_x
-	 * @param int $source_y
-	 * @param int $source_z
+	 * @param Random       $random
+	 * @param int          $source_x
+	 * @param int          $source_y
+	 * @param int          $source_z
+	 *
 	 * @return bool true whether least one plant was successfully generated
 	 */
 	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{

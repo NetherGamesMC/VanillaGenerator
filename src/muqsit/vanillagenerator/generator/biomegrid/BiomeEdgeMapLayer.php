@@ -77,21 +77,21 @@ class BiomeEdgeMapLayer extends MapLayer{
 						$right_val = $values[$j + 2 + ($i + 1) * $grid_size_x];
 
 						if($edge->value === null && (
-							!array_key_exists($upper_val, $edge->key)
-							|| !array_key_exists($lower_val, $edge->key)
-							|| !array_key_exists($left_val, $edge->key)
-							|| !array_key_exists($right_val, $edge->key)
-						)){
+								!array_key_exists($upper_val, $edge->key)
+								|| !array_key_exists($lower_val, $edge->key)
+								|| !array_key_exists($left_val, $edge->key)
+								|| !array_key_exists($right_val, $edge->key)
+							)){
 							$val = $edge->key[$center_val];
 							break;
 						}
 
 						if($edge->value !== null && (
-							array_key_exists($upper_val, $edge->value) ||
-							array_key_exists($lower_val, $edge->value) ||
-							array_key_exists($left_val, $edge->value) ||
-							array_key_exists($right_val, $edge->value)
-						)){
+								array_key_exists($upper_val, $edge->value) ||
+								array_key_exists($lower_val, $edge->value) ||
+								array_key_exists($left_val, $edge->value) ||
+								array_key_exists($right_val, $edge->value)
+							)){
 							$val = $edge->key[$center_val];
 							break;
 						}

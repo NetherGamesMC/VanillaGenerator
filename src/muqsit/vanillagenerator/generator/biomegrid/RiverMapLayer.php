@@ -44,6 +44,7 @@ class RiverMapLayer extends MapLayer{
 	 * @param int $z
 	 * @param int $size_x
 	 * @param int $size_z
+	 *
 	 * @return int[]
 	 */
 	private function generateRivers(int $x, int $z, int $size_x, int $size_z) : array{
@@ -69,6 +70,7 @@ class RiverMapLayer extends MapLayer{
 				$final_values[$j + $i * $size_x] = $val;
 			}
 		}
+
 		return $final_values;
 	}
 
@@ -77,6 +79,7 @@ class RiverMapLayer extends MapLayer{
 	 * @param int $z
 	 * @param int $size_x
 	 * @param int $size_z
+	 *
 	 * @return int[]
 	 */
 	private function mergeRivers(int $x, int $z, int $size_x, int $size_z) : array{

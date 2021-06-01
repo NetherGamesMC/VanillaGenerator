@@ -15,8 +15,6 @@ use muqsit\vanillagenerator\generator\ground\RockyGroundGenerator;
 use muqsit\vanillagenerator\generator\ground\SandyGroundGenerator;
 use muqsit\vanillagenerator\generator\ground\SnowyGroundGenerator;
 use muqsit\vanillagenerator\generator\ground\StonePatchGroundGenerator;
-use muqsit\vanillagenerator\generator\noise\glowstone\PerlinOctaveGenerator;
-use muqsit\vanillagenerator\generator\noise\glowstone\SimplexOctaveGenerator;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeHeightManager;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use muqsit\vanillagenerator\generator\overworld\populator\CavePopulator;
@@ -29,6 +27,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use PerlinOctaveGenerator;
 use function array_key_exists;
 
 /**
@@ -45,6 +44,7 @@ class OverworldGenerator extends VanillaGenerator{
 	/**
 	 * @param int $x 0-4
 	 * @param int $z 0-4
+	 *
 	 * @return int
 	 */
 	private static function elevationWeightHash(int $x, int $z) : int{
@@ -55,6 +55,7 @@ class OverworldGenerator extends VanillaGenerator{
 	 * @param int $i 0-4
 	 * @param int $j 0-4
 	 * @param int $k 0-32
+	 *
 	 * @return int
 	 */
 	private static function densityHash(int $i, int $j, int $k) : int{
@@ -132,12 +133,12 @@ class OverworldGenerator extends VanillaGenerator{
 		$cx = $chunk_x << 4;
 		$cz = $chunk_z << 4;
 
-		/** @var SimplexOctaveGenerator $octave_generator */
 		$octave_generator = $this->getWorldOctaves()->surface;
 		$size_x = $octave_generator->getSizeX();
 		$size_z = $octave_generator->getSizeZ();
 
-		$surface_noise = $octave_generator->getFractalBrownianMotion($cx, 0.0, $cz, 0.5, 0.5);
+		$surface_noise = [];
+		$octave_generator->getFractalBrownianMotion($surface_noise, $cx, 0.0, $cz, 0.5, 0.5);
 
 		/** @var Chunk $chunk */
 		$chunk = $world->getChunk($chunk_x, $chunk_z);
@@ -157,26 +158,26 @@ class OverworldGenerator extends VanillaGenerator{
 	protected function createWorldOctaves() : WorldOctaves{
 		$seed = new Random($this->random->getSeed());
 
-		$height = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 16, 5, 1, 5);
+		$height = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 16, 5, 1, 5);
 		$height->setXScale(self::HEIGHT_NOISE_SCALE_X);
 		$height->setZScale(self::HEIGHT_NOISE_SCALE_Z);
 
-		$roughness = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 16, 5, 33, 5);
+		$roughness = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 16, 5, 33, 5);
 		$roughness->setXScale(self::COORDINATE_SCALE);
 		$roughness->setYScale(self::HEIGHT_SCALE);
 		$roughness->setZScale(self::COORDINATE_SCALE);
 
-		$roughness2 = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 16, 5, 33, 5);
+		$roughness2 = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 16, 5, 33, 5);
 		$roughness2->setXScale(self::COORDINATE_SCALE);
 		$roughness2->setYScale(self::HEIGHT_SCALE);
 		$roughness2->setZScale(self::COORDINATE_SCALE);
 
-		$detail = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 8, 5, 33, 5);
+		$detail = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 8, 5, 33, 5);
 		$detail->setXScale(self::COORDINATE_SCALE / self::DETAIL_NOISE_SCALE_X);
 		$detail->setYScale(self::HEIGHT_SCALE / self::DETAIL_NOISE_SCALE_Y);
 		$detail->setZScale(self::COORDINATE_SCALE / self::DETAIL_NOISE_SCALE_Z);
 
-		$surface = SimplexOctaveGenerator::fromRandomAndOctaves($seed, 4, 16, 1, 16);
+		$surface = \SimplexOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 4, 16, 1, 16);
 		$surface->setScale(self::SURFACE_SCALE);
 
 		return new WorldOctaves($height, $roughness, $roughness2, $detail, $surface);
@@ -282,6 +283,7 @@ class OverworldGenerator extends VanillaGenerator{
 	/**
 	 * @param int $x
 	 * @param int $z
+	 *
 	 * @return float[]
 	 */
 	private function generateTerrainDensity(int $x, int $z) : array{
@@ -305,10 +307,15 @@ class OverworldGenerator extends VanillaGenerator{
 		$biomeGrid = $this->getBiomeGridAtLowerRes($x - 2, $z - 2, 10, 10);
 
 		$octaves = $this->getWorldOctaves();
-		$height_noise = $octaves->height->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
-		$roughness_noise = $octaves->roughness->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
-		$roughness_noise_2 = $octaves->roughness_2->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
-		$detail_noise = $octaves->detail->getFractalBrownianMotion($x, 0, $z, 0.5, 2.0);
+		$height_noise = [];
+		$roughness_noise = [];
+		$roughness_noise_2 = [];
+		$detail_noise = [];
+
+		$octaves->height->getFractalBrownianMotion($height_noise, $x, 0, $z, 0.5, 2.0);
+		$octaves->roughness->getFractalBrownianMotion($roughness_noise, $x, 0, $z, 0.5, 2.0);
+		$octaves->roughness_2->getFractalBrownianMotion($roughness_noise_2, $x, 0, $z, 0.5, 2.0);
+		$octaves->detail->getFractalBrownianMotion($detail_noise, $x, 0, $z, 0.5, 2.0);
 
 		$index = 0;
 		$index_height = 0;
@@ -399,6 +406,7 @@ class OverworldGenerator extends VanillaGenerator{
 				}
 			}
 		}
+
 		return $density;
 	}
 }

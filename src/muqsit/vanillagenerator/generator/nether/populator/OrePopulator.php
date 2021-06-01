@@ -15,6 +15,7 @@ class OrePopulator extends OverworldOrePopulator{
 	/**
 	 * @noinspection MagicMethodsValidityInspection
 	 * @noinspection PhpMissingParentConstructorInspection
+	 *
 	 * @param int $world_height
 	 */
 	public function __construct(int $world_height = World::Y_MAX){

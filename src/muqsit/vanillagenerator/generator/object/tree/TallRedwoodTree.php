@@ -65,6 +65,7 @@ class TallRedwoodTree extends RedwoodTree{
 		}
 
 		$this->transaction->addBlockAt($source_x, $source_y - 1, $source_z, VanillaBlocks::DIRT());
+
 		return true;
 	}
 }

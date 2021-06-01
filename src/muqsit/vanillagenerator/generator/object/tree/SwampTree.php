@@ -37,6 +37,7 @@ class SwampTree extends CocoaTree{
 
 	public function canPlaceOn(Block $soil) : bool{
 		$id = $soil->getId();
+
 		return $id === BlockLegacyIds::GRASS || $id === BlockLegacyIds::DIRT;
 	}
 
@@ -72,6 +73,7 @@ class SwampTree extends CocoaTree{
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -127,6 +129,7 @@ class SwampTree extends CocoaTree{
 		$this->addVinesOnLeaves($source_x, $source_y, $source_z, $world, $random);
 
 		$this->transaction->addBlockAt($source_x, $source_y - 1, $source_z, VanillaBlocks::DIRT());
+
 		return true;
 	}
 }

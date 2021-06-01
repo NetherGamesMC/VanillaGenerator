@@ -11,6 +11,7 @@ interface BiomeGrid{
 	 *
 	 * @param int $x - 0-15
 	 * @param int $z - 0-15
+	 *
 	 * @return int|null
 	 */
 	public function getBiome(int $x, int $z) : ?int;
