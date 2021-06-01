@@ -21,8 +21,6 @@ abstract class VanillaGenerator extends Generator{
 	private array $populators = [];
 
 	private MapLayerPair $biome_grid;
-	/** @var float */
-	private float $nowTime;
 
 	public function __construct(int $seed, int $environment, ?string $world_type = null, string $preset = ""){
 		parent::__construct($seed, $preset);
@@ -63,8 +61,6 @@ abstract class VanillaGenerator extends Generator{
 	abstract protected function createWorldOctaves() : WorldOctaves;
 
 	public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ) : void{
-		$this->nowTime = microtime(true);
-
 		$biomes = new VanillaBiomeGrid();
 		$biome_values = $this->biome_grid->high_resolution->generateValues($chunkX * 16, $chunkZ * 16, 16, 16);
 		for($i = 0, $biome_values_c = count($biome_values); $i < $biome_values_c; ++$i){
