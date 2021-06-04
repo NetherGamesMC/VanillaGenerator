@@ -8,6 +8,7 @@ use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\utils\DyeColor;
 use pocketmine\block\VanillaBlocks;
+use pocketmine\data\bedrock\DyeColorIdMap;
 use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use SimplexOctaveGenerator;
@@ -134,7 +135,9 @@ class MesaGroundGenerator extends GroundGenerator{
 	}
 
 	private function setColoredGroundLayer(ChunkManager $world, int $x, int $y, int $z, int $color) : void{
-		$world->setBlockAt($x, $y, $z, $color >= 0 ? BlockFactory::getInstance()->get(BlockLegacyIds::STAINED_CLAY, $color) : VanillaBlocks::HARDENED_CLAY());
+		/** @var DyeColorIdMap $idMap */
+		$idMap = DyeColorIdMap::getInstance();
+		$world->setBlockAt($x, $y, $z, $color >= 0 ? VanillaBlocks::STAINED_CLAY()->setColor($idMap->fromId($color)) : VanillaBlocks::HARDENED_CLAY());
 	}
 
 	private function setRandomLayerColor(Random $random, int $min_layer_count, int $min_layer_height, int $color) : void{
