@@ -11,9 +11,9 @@ use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\TreeDecoration;
 use pocketmine\block\DoublePlant;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use Random;
 
 class ForestPopulator extends BiomePopulator{
 

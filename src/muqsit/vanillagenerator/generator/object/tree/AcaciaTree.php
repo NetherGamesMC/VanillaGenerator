@@ -8,7 +8,7 @@ use pocketmine\block\Block;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\utils\TreeType;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
 

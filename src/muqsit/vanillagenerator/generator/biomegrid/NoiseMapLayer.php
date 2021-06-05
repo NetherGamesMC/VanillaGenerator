@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\biomegrid;
 
+use Random;
 use SimplexOctaveGenerator;
 
 class NoiseMapLayer extends MapLayer{
@@ -13,7 +14,7 @@ class NoiseMapLayer extends MapLayer{
 	public function __construct(int $seed){
 		parent::__construct($seed);
 		//This was once new SimplexNoiseGenerator(Random, 2). TODO: See if there are any implications of being lazy for this
-		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves($seed, 2, 0, 0, 0);
+		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random($seed), 2, 0, 0, 0);
 	}
 
 	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{

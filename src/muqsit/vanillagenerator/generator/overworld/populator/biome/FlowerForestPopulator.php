@@ -8,9 +8,10 @@ use muqsit\vanillagenerator\generator\object\Flower;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use pocketmine\block\Block;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use Random;
+use SimplexOctaveGenerator;
 
 class FlowerForestPopulator extends ForestPopulator{
 
@@ -32,14 +33,14 @@ class FlowerForestPopulator extends ForestPopulator{
 		];
 	}
 
-	private \SimplexOctaveGenerator $noise_gen;
+	private SimplexOctaveGenerator $noise_gen;
 
 	protected function initPopulators() : void{
 		parent::initPopulators();
 		$this->tree_decorator->setAmount(6);
 		$this->flower_decorator->setAmount(0);
 		$this->double_plant_lowering_amount = 1;
-		$this->noise_gen = \SimplexOctaveGenerator::fromRandomAndOctaves(2345, 1, 0, 0, 0);
+		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(2345), 1, 0, 0, 0);
 		$this->noise_gen->setScale(1 / 48.0);
 	}
 

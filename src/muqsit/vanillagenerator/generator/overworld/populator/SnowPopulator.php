@@ -9,7 +9,7 @@ use muqsit\vanillagenerator\generator\Populator;
 use pocketmine\block\BlockFactory;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

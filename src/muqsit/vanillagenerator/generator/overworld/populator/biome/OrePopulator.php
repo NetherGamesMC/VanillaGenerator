@@ -9,7 +9,7 @@ use muqsit\vanillagenerator\generator\object\OreVein;
 use muqsit\vanillagenerator\generator\overworld\populator\biome\utils\OreTypeHolder;
 use muqsit\vanillagenerator\generator\Populator;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

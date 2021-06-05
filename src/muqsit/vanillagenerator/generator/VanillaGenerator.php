@@ -12,6 +12,7 @@ use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use pocketmine\world\generator\Generator;
 use pocketmine\world\World;
+use Random;
 
 abstract class VanillaGenerator extends Generator{
 
@@ -22,8 +23,12 @@ abstract class VanillaGenerator extends Generator{
 
 	private MapLayerPair $biome_grid;
 
+	/** @var Random $random */
+	protected $random;
+
 	public function __construct(int $seed, int $environment, ?string $world_type = null, string $preset = ""){
 		parent::__construct($seed, $preset);
+		$this->random = new Random($seed);
 		$this->biome_grid = MapLayer::initialize($seed, $environment, $world_type ?? WorldType::NORMAL);
 	}
 

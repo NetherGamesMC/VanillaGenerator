@@ -8,7 +8,7 @@ use muqsit\vanillagenerator\generator\Decorator;
 use pocketmine\block\Block;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\BlockLegacyMetadata;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

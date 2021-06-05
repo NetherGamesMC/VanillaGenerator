@@ -6,7 +6,7 @@ namespace muqsit\vanillagenerator\generator\object;
 
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\DoublePlant;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 
 class DoubleTallPlant extends TerrainObject{

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator\object;
 
 use pocketmine\block\Block;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use function array_key_exists;
 

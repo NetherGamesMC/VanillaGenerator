@@ -11,7 +11,7 @@ use muqsit\vanillagenerator\generator\object\tree\TallRedwoodTree;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use muqsit\vanillagenerator\generator\overworld\decorator\StoneBoulderDecorator;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\TreeDecoration;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

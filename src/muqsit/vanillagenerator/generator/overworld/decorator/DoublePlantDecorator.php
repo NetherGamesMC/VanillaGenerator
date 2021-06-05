@@ -8,7 +8,7 @@ use muqsit\vanillagenerator\generator\Decorator;
 use muqsit\vanillagenerator\generator\object\DoubleTallPlant;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\DoublePlantDecoration;
 use pocketmine\block\DoublePlant;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

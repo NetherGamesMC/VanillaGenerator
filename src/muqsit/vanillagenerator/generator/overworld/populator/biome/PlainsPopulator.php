@@ -10,9 +10,9 @@ use muqsit\vanillagenerator\generator\object\TallGrass;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use pocketmine\block\Block;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use Random;
 use SimplexOctaveGenerator;
 
 class PlainsPopulator extends BiomePopulator{
@@ -44,7 +44,7 @@ class PlainsPopulator extends BiomePopulator{
 
 	public function __construct(){
 		parent::__construct();
-		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(2345, 1, 0, 0, 0);
+		$this->noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(2345), 1, 0, 0, 0);
 		$this->noise_gen->setScale(1 / 200.0);
 	}
 

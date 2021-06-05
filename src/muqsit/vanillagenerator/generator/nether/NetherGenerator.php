@@ -13,6 +13,7 @@ use pocketmine\block\VanillaBlocks;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use PerlinOctaveGenerator;
+use Random;
 
 /**
  * @phpstan-extends VanillaGenerator<NetherWorldOctaves<PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator>>
@@ -86,7 +87,7 @@ class NetherGenerator extends VanillaGenerator{
 	}
 
 	protected function createWorldOctaves() : NetherWorldOctaves{
-		$seed = $this->random->getSeed();
+		$seed = new Random($this->random->getSeed());
 
 		$height = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 16, 5, 1, 5);
 		$height->setXScale(static::HEIGHT_NOISE_SCALE_X);

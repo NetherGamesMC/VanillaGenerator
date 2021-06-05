@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator\ground;
 
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 
 class GravelPatchGroundGenerator extends GroundGenerator{

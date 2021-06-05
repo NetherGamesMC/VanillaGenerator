@@ -24,10 +24,11 @@ use muqsit\vanillagenerator\generator\utils\WorldOctaves;
 use muqsit\vanillagenerator\generator\VanillaBiomeGrid;
 use muqsit\vanillagenerator\generator\VanillaGenerator;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use PerlinOctaveGenerator;
+use Random;
+use SimplexOctaveGenerator;
 use function array_key_exists;
 
 /**
@@ -158,26 +159,26 @@ class OverworldGenerator extends VanillaGenerator{
 	protected function createWorldOctaves() : WorldOctaves{
 		$seed = new Random($this->random->getSeed());
 
-		$height = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 16, 5, 1, 5);
+		$height = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 16, 5, 1, 5);
 		$height->setXScale(self::HEIGHT_NOISE_SCALE_X);
 		$height->setZScale(self::HEIGHT_NOISE_SCALE_Z);
 
-		$roughness = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 16, 5, 33, 5);
+		$roughness = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 16, 5, 33, 5);
 		$roughness->setXScale(self::COORDINATE_SCALE);
 		$roughness->setYScale(self::HEIGHT_SCALE);
 		$roughness->setZScale(self::COORDINATE_SCALE);
 
-		$roughness2 = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 16, 5, 33, 5);
+		$roughness2 = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 16, 5, 33, 5);
 		$roughness2->setXScale(self::COORDINATE_SCALE);
 		$roughness2->setYScale(self::HEIGHT_SCALE);
 		$roughness2->setZScale(self::COORDINATE_SCALE);
 
-		$detail = PerlinOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 8, 5, 33, 5);
+		$detail = PerlinOctaveGenerator::fromRandomAndOctaves($seed, 8, 5, 33, 5);
 		$detail->setXScale(self::COORDINATE_SCALE / self::DETAIL_NOISE_SCALE_X);
 		$detail->setYScale(self::HEIGHT_SCALE / self::DETAIL_NOISE_SCALE_Y);
 		$detail->setZScale(self::COORDINATE_SCALE / self::DETAIL_NOISE_SCALE_Z);
 
-		$surface = \SimplexOctaveGenerator::fromRandomAndOctaves($seed->getSeed(), 4, 16, 1, 16);
+		$surface = SimplexOctaveGenerator::fromRandomAndOctaves($seed, 4, 16, 1, 16);
 		$surface->setScale(self::SURFACE_SCALE);
 
 		return new WorldOctaves($height, $roughness, $roughness2, $detail, $surface);

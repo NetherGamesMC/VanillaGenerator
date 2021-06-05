@@ -8,7 +8,7 @@ use muqsit\vanillagenerator\generator\biomegrid\utils\MapLayerPair;
 use muqsit\vanillagenerator\generator\Environment;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use muqsit\vanillagenerator\generator\overworld\WorldType;
-use pocketmine\utils\Random;
+use Random;
 
 abstract class MapLayer{
 

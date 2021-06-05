@@ -26,7 +26,7 @@ use muqsit\vanillagenerator\generator\overworld\populator\biome\SunflowerPlainsP
 use muqsit\vanillagenerator\generator\overworld\populator\biome\SwamplandPopulator;
 use muqsit\vanillagenerator\generator\overworld\populator\biome\TaigaPopulator;
 use muqsit\vanillagenerator\generator\Populator;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use ReflectionClass;

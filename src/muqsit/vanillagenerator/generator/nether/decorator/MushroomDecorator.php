@@ -7,7 +7,7 @@ namespace muqsit\vanillagenerator\generator\nether\decorator;
 use muqsit\vanillagenerator\generator\Decorator;
 use pocketmine\block\Block;
 use pocketmine\block\BlockLegacyIds;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use function array_key_exists;

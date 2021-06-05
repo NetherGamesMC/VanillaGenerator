@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\overworld\biome;
 
+use Random;
+use SimplexOctaveGenerator;
+
 final class BiomeClimateManager{
 
 	private static $noise_gen;
@@ -15,7 +18,7 @@ final class BiomeClimateManager{
 	private static array $climates = [];
 
 	public static function init() : void{
-		self::$noise_gen = \SimplexOctaveGenerator::fromRandomAndOctaves(1234, 1, 0, 0, 0);
+		self::$noise_gen = SimplexOctaveGenerator::fromRandomAndOctaves(new Random(1234), 1, 0, 0, 0);
 		self::$noise_gen->setScale(1 / 8.0);
 
 		self::$default = new BiomeClimate(0.5, 0.5, true);

@@ -8,7 +8,7 @@ use muqsit\vanillagenerator\generator\Decorator;
 use muqsit\vanillagenerator\generator\object\Flower;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\FlowerDecoration;
 use pocketmine\block\Block;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

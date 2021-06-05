@@ -8,7 +8,7 @@ use Exception;
 use muqsit\vanillagenerator\generator\Decorator;
 use muqsit\vanillagenerator\generator\object\tree\GenericTree;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\TreeDecoration;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;

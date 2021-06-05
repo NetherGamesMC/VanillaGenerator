@@ -9,7 +9,7 @@ use pocketmine\block\BlockLegacyMetadata;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\math\Facing;
 use pocketmine\math\Vector3;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 
 class SugarCane extends TerrainObject{

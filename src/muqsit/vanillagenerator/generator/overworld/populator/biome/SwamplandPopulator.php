@@ -11,7 +11,7 @@ use muqsit\vanillagenerator\generator\overworld\decorator\types\FlowerDecoration
 use muqsit\vanillagenerator\generator\overworld\decorator\types\TreeDecoration;
 use muqsit\vanillagenerator\generator\overworld\decorator\WaterLilyDecorator;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

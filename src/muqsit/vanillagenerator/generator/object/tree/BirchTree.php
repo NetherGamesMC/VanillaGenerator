@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace muqsit\vanillagenerator\generator\object\tree;
 
 use pocketmine\block\utils\TreeType;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\BlockTransaction;
 
 class BirchTree extends GenericTree{

@@ -7,7 +7,7 @@ namespace muqsit\vanillagenerator\generator\object;
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\Flowable;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\World;
 

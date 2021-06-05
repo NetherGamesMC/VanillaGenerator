@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\object\tree;
 
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\BlockTransaction;
 
 class MegaSpruceTree extends MegaPineTree{

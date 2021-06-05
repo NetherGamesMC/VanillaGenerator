@@ -6,7 +6,7 @@ namespace muqsit\vanillagenerator\generator\overworld\populator\biome;
 
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use muqsit\vanillagenerator\generator\overworld\decorator\IceDecorator;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 

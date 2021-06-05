@@ -6,7 +6,7 @@ namespace muqsit\vanillagenerator\generator\object\tree;
 
 use pocketmine\block\BlockLegacyIds;
 use pocketmine\block\VanillaBlocks;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
 

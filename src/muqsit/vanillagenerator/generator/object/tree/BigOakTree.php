@@ -6,7 +6,7 @@ namespace muqsit\vanillagenerator\generator\object\tree;
 
 use pocketmine\block\BlockFactory;
 use pocketmine\math\Vector3;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
 use function array_key_exists;

@@ -6,7 +6,7 @@ namespace muqsit\vanillagenerator\generator\object;
 
 use pocketmine\block\Block;
 use pocketmine\block\BlockLegacyIds;
-use pocketmine\utils\Random;
+use Random;
 use pocketmine\world\ChunkManager;
 
 class Flower extends TerrainObject{
