@@ -15,11 +15,11 @@ use pocketmine\world\format\Chunk;
 
 class GroundGenerator{
 
-	protected Block $top_material;
-	protected Block $ground_material;
 	protected int $bedrock_roughness = 5;
 
-	public function __construct(?Block $top_material = null, ?Block $ground_material = null){
+	public function __construct(
+		protected ?Block $top_material = null,
+		protected ?Block $ground_material = null){
 		$this->setTopMaterial($top_material ?? VanillaBlocks::GRASS());
 		$this->setGroundMaterial($ground_material ?? VanillaBlocks::DIRT());
 	}

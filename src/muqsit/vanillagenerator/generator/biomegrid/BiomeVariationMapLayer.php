@@ -43,13 +43,12 @@ class BiomeVariationMapLayer extends MapLayer{
 		}
 	}
 
-	private MapLayer $below_layer;
-	private ?MapLayer $variation_layer;
-
-	public function __construct(int $seed, MapLayer $below_layer, ?MapLayer $variation_layer = null){
+	public function __construct(
+		int $seed,
+		private MapLayer $below_layer,
+		private ?MapLayer $variation_layer = null
+	){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
-		$this->variation_layer = $variation_layer;
 	}
 
 	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{

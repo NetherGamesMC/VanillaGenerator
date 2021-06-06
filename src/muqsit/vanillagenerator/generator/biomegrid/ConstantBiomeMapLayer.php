@@ -6,11 +6,8 @@ namespace muqsit\vanillagenerator\generator\biomegrid;
 
 class ConstantBiomeMapLayer extends MapLayer{
 
-	private int $biome;
-
-	public function __construct(int $seed, int $biome){
+	public function __construct(int $seed, private int $biome){
 		parent::__construct($seed);
-		$this->biome = $biome;
 	}
 
 	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{

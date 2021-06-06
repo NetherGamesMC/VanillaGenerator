@@ -9,13 +9,12 @@ class ZoomMapLayer extends MapLayer{
 	public const NORMAL = 0;
 	public const BLURRY = 1;
 
-	private MapLayer $below_layer;
-	private int $zoom_type;
-
-	public function __construct(int $seed, MapLayer $below_layer, int $zoom_type = self::NORMAL){
+	public function __construct(
+		int $seed,
+		private MapLayer $below_layer,
+		private int $zoom_type = self::NORMAL
+	){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
-		$this->zoom_type = $zoom_type;
 	}
 
 	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{

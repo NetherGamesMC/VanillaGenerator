@@ -88,11 +88,9 @@ abstract class MapLayer{
 	}
 
 	private Random $random;
-	private int $seed;
 
-	public function __construct(int $seed){
+	public function __construct(private int $seed){
 		$this->random = new Random();
-		$this->seed = $seed;
 	}
 
 	public function setCoordsSeed(int $x, int $z) : void{

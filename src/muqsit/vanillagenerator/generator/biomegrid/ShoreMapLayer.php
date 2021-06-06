@@ -34,11 +34,8 @@ class ShoreMapLayer extends MapLayer{
 		BiomeIds::MUTATED_MESA => BiomeIds::MUTATED_MESA
 	];
 
-	private MapLayer $below_layer;
-
-	public function __construct(int $seed, MapLayer $below_layer){
+	public function __construct(int $seed, private MapLayer $below_layer){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
 	}
 
 	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{

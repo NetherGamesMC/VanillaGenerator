@@ -40,7 +40,7 @@ class PlainsPopulator extends BiomePopulator{
 		];
 	}
 
-	private $noise_gen;
+	private SimplexOctaveGenerator $noise_gen;
 
 	public function __construct(){
 		parent::__construct();

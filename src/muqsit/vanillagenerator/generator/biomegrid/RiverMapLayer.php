@@ -22,13 +22,12 @@ class RiverMapLayer extends MapLayer{
 	private static int $CLEAR_VALUE = 0;
 	private static int $RIVER_VALUE = 1;
 
-	private MapLayer $below_layer;
-	private ?MapLayer $merge_layer;
-
-	public function __construct(int $seed, MapLayer $below_layer, ?MapLayer $merge_layer = null){
+	public function __construct(
+		int $seed,
+		private MapLayer $below_layer,
+		private ?MapLayer $merge_layer = null
+	){
 		parent::__construct($seed);
-		$this->below_layer = $below_layer;
-		$this->merge_layer = $merge_layer;
 	}
 
 	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{

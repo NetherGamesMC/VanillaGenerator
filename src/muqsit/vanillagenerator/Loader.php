@@ -17,8 +17,8 @@ final class Loader extends PluginBase{
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 		}
 
-		$generator_manager = GeneratorManager::getInstance();
-		$generator_manager->addGenerator(NetherGenerator::class, "vanilla_nether");
-		$generator_manager->addGenerator(OverworldGenerator::class, "vanilla_overworld");
+		$generatorManager = GeneratorManager::getInstance();
+		$generatorManager->addGenerator(NetherGenerator::class, "vanilla_nether");
+		$generatorManager->addGenerator(OverworldGenerator::class, "vanilla_overworld");
 	}
 }

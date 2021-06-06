@@ -14,9 +14,6 @@ use pocketmine\world\format\Chunk;
 
 class UnderwaterDecorator extends Decorator{
 
-	/** @var Block */
-	private Block $type;
-
 	/** @var int */
 	private int $horiz_radius;
 
@@ -26,9 +23,7 @@ class UnderwaterDecorator extends Decorator{
 	/** @var int[] */
 	private array $overridables;
 
-	public function __construct(Block $type){
-		$this->type = $type;
-	}
+	public function __construct(private Block $type){}
 
 	/**
 	 * Updates the size of this decorator.
