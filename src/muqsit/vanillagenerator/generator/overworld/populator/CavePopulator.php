@@ -45,8 +45,8 @@ class CavePopulator implements Populator
 			}
 		}
 
-		$j = self::randomLong($this->random);
-		$k = self::randomLong($this->random);
+		$j = $this->random->nextLong();
+		$k = $this->random->nextLong();
 
 		$chunk = $world->getChunk($chunkX, $chunkZ);
 		for ($currentChunkX = $chunkX - self::CAVE_RANGE; $currentChunkX <= $chunkX + self::CAVE_RANGE; $currentChunkX++) {
@@ -91,7 +91,7 @@ class CavePopulator implements Populator
 			$numAddTunnelCalls = 1;
 
 			if ($addRooms && $this->random->nextBoundedInt(4) == 0) {
-				$this->addRoom(self::randomLong($this->random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $carvingMask);
+				$this->addRoom($this->random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $carvingMask);
 				$numAddTunnelCalls += $this->random->nextBoundedInt(4);
 			}
 
@@ -107,7 +107,7 @@ class CavePopulator implements Populator
 					$width *= $this->random->nextFloat() * $this->random->nextFloat() * 3.0 + 1.0;
 				}
 
-				$this->addTunnel(self::randomLong($this->random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $width, $yaw, $pitch, 0, 0, 1.0, $carvingMask);
+				$this->addTunnel($this->random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $width, $yaw, $pitch, 0, 0, 1.0, $carvingMask);
 			}
 		}
 	}
@@ -184,8 +184,8 @@ class CavePopulator implements Populator
 			$yawModifier = $yawModifier + ($random->nextFloat() - $random->nextFloat()) * $random->nextFloat() * 4.0;
 
 			if ((!$comesFromRoom) && ($startCounter === $randomCounterValue) && ($width > 1.0) && ($endCounter > 0)) {
-				$this->addTunnel(self::randomLong($random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw - ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
-				$this->addTunnel(self::randomLong($random), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw + ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
+				$this->addTunnel($this->random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw - ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
+				$this->addTunnel($this->random->nextLong(), $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, $random->nextFloat() * 0.5 + 0.5, $yaw + ((float)M_PI / 2), $pitch / 3.0, $startCounter, $endCounter, 1.0, $carvingMask);
 
 				return;
 			}
@@ -308,9 +308,5 @@ class CavePopulator implements Populator
 		// Only accept gravel and sand if water is not directly above it
 		return ($block->getId() === BlockLegacyIds::SAND || $block->getId() === BlockLegacyIds::GRAVEL)
 			&& !($blockAbove instanceof Liquid);
-	}
-
-	private static function randomLong(Random $random): int{
-		return (($random->nextSignedInt()) << 32) | $random->nextSignedInt();
 	}
 }
