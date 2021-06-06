@@ -56,6 +56,7 @@ class CavePopulator implements Populator
 
 				$this->random->setSeed($rx ^ $rz ^ $random->getSeed());
 
+				var_dump($allCondition);
 				$this->recursiveGenerate($currentChunkX, $currentChunkZ, $chunkX, $chunkZ, $chunk, true, $allCondition);
 			}
 		}
@@ -73,7 +74,7 @@ class CavePopulator implements Populator
 	 * @param int $refChunkZ
 	 * @param Chunk $chunk
 	 * @param bool $addRooms
-	 * @param array $carvingMask
+	 * @param bool[] $carvingMask
 	 */
 	protected function recursiveGenerate(int $chunkX, int $chunkZ, int $refChunkX, int $refChunkZ, Chunk $chunk, bool $addRooms = true, array $carvingMask = []): void
 	{
