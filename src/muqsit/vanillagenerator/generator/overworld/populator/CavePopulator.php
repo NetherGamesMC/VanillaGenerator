@@ -74,7 +74,9 @@ class CavePopulator implements Populator
 	 * @param int $refChunkZ
 	 * @param Chunk $chunk
 	 * @param bool $addRooms
-	 * @param bool[] $carvingMask
+	 * @param array $carvingMask
+	 *
+	 * @phpstan-param array<int, array<int, bool>>
 	 */
 	protected function recursiveGenerate(int $chunkX, int $chunkZ, int $refChunkX, int $refChunkZ, Chunk $chunk, bool $addRooms = true, array $carvingMask = []): void
 	{
@@ -113,11 +115,17 @@ class CavePopulator implements Populator
 		}
 	}
 
+	/**
+	 * @phpstan-param array<int, array<int, bool>>
+	 */
 	private function addRoom(int $seed, Chunk $chunk, int $refChunkX, int $refChunkZ, float $caveStartX, float $caveStartY, float $caveStartZ, array $carvingMask = []): void
 	{
 		$this->addTunnel($seed, $chunk, $refChunkX, $refChunkZ, $caveStartX, $caveStartY, $caveStartZ, 1.0 + $this->random->nextFloat() * 6.0, 0.0, 0.0, -1, -1, 0.5, $carvingMask);
 	}
 
+	/**
+	 * @phpstan-param array<int, array<int, bool>>
+	 */
 	private function addTunnel(int $seed, Chunk $chunk, int $refChunkX, int $refChunkZ, float $caveStartX, float $caveStartY, float $caveStartZ, float $width, float $yaw, float $pitch, int $startCounter, int $endCounter, float $heightModifier, array $carvingMask = []): void
 	{
 		$random = new Random($seed);
