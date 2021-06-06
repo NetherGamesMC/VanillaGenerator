@@ -56,7 +56,6 @@ class CavePopulator implements Populator
 
 				$this->random->setSeed($rx ^ $rz ^ $random->getSeed());
 
-				var_dump($allCondition);
 				$this->recursiveGenerate($currentChunkX, $currentChunkZ, $chunkX, $chunkZ, $chunk, true, $allCondition);
 			}
 		}
