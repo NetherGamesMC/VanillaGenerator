@@ -32,7 +32,7 @@ class TallGrassDecorator extends Decorator{
 		$source_y = $random->nextBoundedInt(abs($top_block << 1));
 
 		// the grass species can change on each decoration pass
-		$species = VanillaBlocks::DOUBLE_TALLGRASS();
+		$species = VanillaBlocks::TALL_GRASS();
 		if($this->fern_density > 0 && $random->nextFloat() < $this->fern_density){
 			$species = VanillaBlocks::FERN();
 		}

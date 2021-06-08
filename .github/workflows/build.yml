@@ -34,5 +34,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v2.2.3
         with:
-          name: VanillaGenerator.phar
+          name: VanillaGenerator
           path: PharBuilder/VanillaGenerator.phar
