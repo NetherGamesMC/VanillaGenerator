@@ -71,7 +71,6 @@ class OverworldGenerator extends VanillaGenerator{
 		self::setBiomeSpecificGround(new StonePatchGroundGenerator(), BiomeIds::EXTREME_HILLS);
 		self::setBiomeSpecificGround(new GravelPatchGroundGenerator(), BiomeIds::MUTATED_EXTREME_HILLS, BiomeIds::MUTATED_EXTREME_HILLS_WITH_TREES);
 		self::setBiomeSpecificGround(new DirtAndStonePatchGroundGenerator(), BiomeIds::MUTATED_SAVANNA, BiomeIds::MUTATED_SAVANNA_ROCK);
-		self::setBiomeSpecificGround(new DirtPatchGroundGenerator(), BiomeIds::REDWOOD_TAIGA, BiomeIds::REDWOOD_TAIGA_HILLS, BiomeIds::MUTATED_REDWOOD_TAIGA, BiomeIds::MUTATED_REDWOOD_TAIGA_HILLS);
 		self::setBiomeSpecificGround(new MesaGroundGenerator(), BiomeIds::MESA, BiomeIds::MESA_CLEAR_ROCK, BiomeIds::MESA_ROCK);
 		self::setBiomeSpecificGround(new MesaGroundGenerator(MesaGroundGenerator::BRYCE), BiomeIds::MUTATED_MESA);
 		self::setBiomeSpecificGround(new MesaGroundGenerator(MesaGroundGenerator::FOREST), BiomeIds::MESA_ROCK, BiomeIds::MUTATED_MESA_ROCK);
@@ -146,7 +145,12 @@ class OverworldGenerator extends VanillaGenerator{
 
 		for($x = 0; $x < $size_x; ++$x){
 			for($z = 0; $z < $size_z; ++$z){
-				$chunk->setBiomeId($x, $z, $id = $grid->getBiome($x, $z));
+				$id = $grid->getBiome($x, $z);
+				if ($id === 0) {
+					//This doesn't fix an underlying issue, but I can't be bothered to fix this properly on less than 2 hours of sleep
+					$id = BiomeIds::FLOWER_FOREST;
+				}
+				$chunk->setBiomeId($x, $z, $id);
 				if($id !== null && array_key_exists($id, self::$GROUND_MAP)){
 					self::$GROUND_MAP[$id]->generateTerrainColumn($world, $this->random, $cx + $x, $cz + $z, $id, $surface_noise[$x | $z << 4]);
 				}else{

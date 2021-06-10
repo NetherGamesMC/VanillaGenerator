@@ -22,6 +22,7 @@ class BirchForestPopulator extends ForestPopulator{
 	}
 
 	protected function initPopulators() : void{
+		$this->tree_decorator->setAmount(15);
 		$this->tree_decorator->setTrees(...self::$TREES);
 	}
 

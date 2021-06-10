@@ -69,30 +69,19 @@ final class BiomeClimateManager{
 		self::register(new BiomeClimate(0.25, 0.8, true),
 			BiomeIds::TAIGA,
 			BiomeIds::TAIGA_HILLS,
-			BiomeIds::MUTATED_TAIGA,
-			BiomeIds::MUTATED_REDWOOD_TAIGA,
-			BiomeIds::MUTATED_REDWOOD_TAIGA_HILLS
-		);
-
-		self::register(new BiomeClimate(0.8, 0.9, true),
-			BiomeIds::SWAMPLAND,
-			BiomeIds::MUTATED_SWAMPLAND
+			BiomeIds::MUTATED_TAIGA
 		);
 
 		self::register(new BiomeClimate(0.0, 0.5, true),
 			BiomeIds::ICE_FLATS,
 			BiomeIds::ICE_MOUNTAINS,
 			BiomeIds::MUTATED_ICE_FLATS,
-			BiomeIds::FROZEN_RIVER,
-			BiomeIds::FROZEN_OCEAN
+			BiomeIds::FROZEN_RIVER
 		);
 
 		self::register(new BiomeClimate(0.9, 1.0, true), BiomeIds::MUSHROOM_ISLAND, BiomeIds::MUSHROOM_ISLAND_SHORE);
 		self::register(new BiomeClimate(0.05, 0.3, true), BiomeIds::COLD_BEACH);
-		self::register(new BiomeClimate(0.95, 0.9, true), BiomeIds::JUNGLE_HILLS, BiomeIds::MUTATED_JUNGLE);
-		self::register(new BiomeClimate(0.95, 0.8, true), BiomeIds::JUNGLE_EDGE, BiomeIds::MUTATED_JUNGLE_EDGE);
 		self::register(new BiomeClimate(-0.5, 0.4, true), BiomeIds::TAIGA_COLD, BiomeIds::TAIGA_COLD_HILLS, BiomeIds::MUTATED_TAIGA_COLD);
-		self::register(new BiomeClimate(0.3, 0.8, true), BiomeIds::REDWOOD_TAIGA, BiomeIds::REDWOOD_TAIGA_HILLS);
 		self::register(new BiomeClimate(1.2, 0.0, false), BiomeIds::SAVANNA);
 		self::register(new BiomeClimate(1.1, 0.0, false), BiomeIds::MUTATED_SAVANNA);
 		self::register(new BiomeClimate(1.0, 0.0, false), BiomeIds::SAVANNA_ROCK);

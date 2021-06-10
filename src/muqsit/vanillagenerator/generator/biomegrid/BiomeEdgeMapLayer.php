@@ -17,23 +17,8 @@ class BiomeEdgeMapLayer extends MapLayer{
 	];
 
 	/** @var int[] */
-	private static array $MEGA_TAIGA_EDGES = [
-		BiomeIds::REDWOOD_TAIGA => BiomeIds::TAIGA
-	];
-
-	/** @var int[] */
 	private static array $DESERT_EDGES = [
 		BiomeIds::DESERT => BiomeIdS::EXTREME_HILLS_WITH_TREES
-	];
-
-	/** @var int[] */
-	private static array $SWAMP1_EDGES = [
-		BiomeIds::SWAMPLAND => BiomeIds::PLAINS
-	];
-
-	/** @var int[] */
-	private static array $SWAMP2_EDGES = [
-		BiomeIds::SWAMPLAND => BiomeIds::JUNGLE_EDGE
 	];
 
 	/** @var BiomeEdgeEntry[] */
@@ -42,10 +27,7 @@ class BiomeEdgeMapLayer extends MapLayer{
 	public static function init() : void{
 		self::$EDGES = [
 			new BiomeEdgeEntry(self::$MESA_EDGES),
-			new BiomeEdgeEntry(self::$MEGA_TAIGA_EDGES),
-			new BiomeEdgeEntry(self::$DESERT_EDGES, [BiomeIds::ICE_FLATS]),
-			new BiomeEdgeEntry(self::$SWAMP1_EDGES, [BiomeIds::DESERT, BiomeIds::TAIGA_COLD, BiomeIds::ICE_FLATS]),
-			new BiomeEdgeEntry(self::$SWAMP2_EDGES, [BiomeIds::JUNGLE])
+			new BiomeEdgeEntry(self::$DESERT_EDGES, [BiomeIds::ICE_FLATS])
 		];
 	}
 

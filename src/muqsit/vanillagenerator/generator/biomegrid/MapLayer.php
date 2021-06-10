@@ -44,7 +44,7 @@ abstract class MapLayer{
 			$layer = new ErosionMapLayer($seed + 3 + $i, $layer);
 		}
 
-		$layer = new DeepOceanMapLayer($seed + 4, $layer);
+		//$layer = new DeepOceanMapLayer($seed + 4, $layer);
 
 		$layer_mountains = new BiomeVariationMapLayer($seed + 200, $layer);
 		for($i = 0; $i < 2; ++$i){

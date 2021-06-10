@@ -10,9 +10,6 @@ use function array_key_exists;
 
 class BiomeVariationMapLayer extends MapLayer{
 
-	/** @var int[] */
-	private static array $ISLANDS = [BiomeIds::PLAINS, BiomeIds::FOREST];
-
 	/** @var int[][] */
 	private static array $VARIATIONS = [
 		BiomeIds::DESERT => [BiomeIds::DESERT_HILLS],
@@ -20,12 +17,9 @@ class BiomeVariationMapLayer extends MapLayer{
 		BiomeIds::BIRCH_FOREST => [BiomeIds::BIRCH_FOREST_HILLS],
 		BiomeIds::ROOFED_FOREST => [BiomeIds::PLAINS],
 		BiomeIds::TAIGA => [BiomeIds::TAIGA_HILLS],
-		BiomeIds::REDWOOD_TAIGA => [BiomeIds::REDWOOD_TAIGA_HILLS],
 		BiomeIds::TAIGA_COLD => [BiomeIds::TAIGA_COLD_HILLS],
 		BiomeIds::PLAINS => [BiomeIds::FOREST, BiomeIds::FOREST, BiomeIds::FOREST_HILLS],
 		BiomeIds::ICE_FLATS => [BiomeIds::ICE_MOUNTAINS],
-		BiomeIds::JUNGLE => [BiomeIds::JUNGLE_HILLS],
-		BiomeIds::OCEAN => [BiomeIds::DEEP_OCEAN],
 		BiomeIds::EXTREME_HILLS => [BiomeIds::EXTREME_HILLS_WITH_TREES],
 		BiomeIds::SAVANNA => [BiomeIds::SAVANNA_ROCK],
 		BiomeIds::MESA_ROCK => [BiomeIds::MESA],
@@ -118,8 +112,6 @@ class BiomeVariationMapLayer extends MapLayer{
 					$val = $center_value;
 					if(array_key_exists($center_value, self::$VARIATIONS)){
 						$val = self::$VARIATIONS[$center_value][$this->nextInt(count(self::$VARIATIONS[$center_value]))];
-					}elseif($center_value === BiomeIds::DEEP_OCEAN && $this->nextInt(3) === 0){
-						$val = self::$ISLANDS[$this->nextInt(count(self::$ISLANDS))];
 					}
 					if($variation_value === 2 && $val !== $center_value){
 						$val = array_key_exists($val + 128, self::$BIOMES) ? $val + 128 : $center_value;

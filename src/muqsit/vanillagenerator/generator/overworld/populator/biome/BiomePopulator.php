@@ -111,7 +111,7 @@ class BiomePopulator implements Populator{
 	 * wells; and vegetation.
 	 */
 	public function __construct(){
-		$this->water_lake_decorator = new LakeDecorator(VanillaBlocks::WATER()->getStillForm(), 4);
+		$this->water_lake_decorator = new LakeDecorator(VanillaBlocks::WATER(), 4);
 		$this->lava_lake_decorator = new LakeDecorator(VanillaBlocks::LAVA()->getStillForm(), 8, 8);
 		$this->ore_populator = new OrePopulator();
 		$this->sand_patch_decorator = new UnderwaterDecorator(VanillaBlocks::SAND());

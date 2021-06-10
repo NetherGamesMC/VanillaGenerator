@@ -12,7 +12,7 @@ class BiomeMapLayer extends MapLayer{
 	private static array $WARM = [BiomeIds::DESERT, BiomeIds::DESERT, BiomeIds::DESERT, BiomeIds::SAVANNA, BiomeIds::SAVANNA, BiomeIds::PLAINS];
 
 	/** @var int[] */
-	private static array $WET = [BiomeIds::PLAINS, BiomeIds::PLAINS, BiomeIds::FOREST, BiomeIds::BIRCH_FOREST, BiomeIds::ROOFED_FOREST, BiomeIds::EXTREME_HILLS, BiomeIds::SWAMPLAND];
+	private static array $WET = [BiomeIds::PLAINS, BiomeIds::PLAINS, BiomeIds::FOREST, BiomeIds::BIRCH_FOREST, BiomeIds::ROOFED_FOREST, BiomeIds::EXTREME_HILLS];
 
 	/** @var int[] */
 	private static array $DRY = [BiomeIds::PLAINS, BiomeIds::FOREST, BiomeIds::TAIGA, BiomeIds::EXTREME_HILLS];
@@ -22,12 +22,6 @@ class BiomeMapLayer extends MapLayer{
 
 	/** @var int[] */
 	private static array $WARM_LARGE = [BiomeIds::MESA_ROCK, BiomeIds::MESA_ROCK, BiomeIds::MESA_CLEAR_ROCK];
-
-	/** @var int[] */
-	private static array $DRY_LARGE = [BiomeIds::REDWOOD_TAIGA];
-
-	/** @var int[] */
-	private static array $WET_LARGE = [BiomeIds::JUNGLE];
 
 	public function __construct(int $seed, private MapLayer $below_layer){
 		parent::__construct($seed);
@@ -54,18 +48,21 @@ class BiomeMapLayer extends MapLayer{
 							$val = self::$COLD[$this->nextInt(count(self::$COLD))];
 							break;
 						case 4:
+						case 1001:
 							$val = self::$WET[$this->nextInt(count(self::$WET))];
 							break;
-						case 1001:
-							$val = self::$DRY_LARGE[$this->nextInt(count(self::$DRY_LARGE))];
-							break;
+						//case 1001:
+							//TODO: This shouldn't be empty
+						//	break;
 						case 1002:
+						case 1004:
 							$val = self::$WARM_LARGE[$this->nextInt(count(self::$WARM_LARGE))];
 							break;
-						case 1004:
-							$val = self::$WET_LARGE[$this->nextInt(count(self::$WET_LARGE))];
-							break;
+						//case 1004:
+							//TODO: This shouldn't be empty
+							//break;
 						default:
+							var_dump("unknown");
 							break;
 					}
 				}
