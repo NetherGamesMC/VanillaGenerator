@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\overworld;
 
+use _HumbugBoxa991b62ce91e\Nette\Utils\Reflection;
 use muqsit\vanillagenerator\generator\Environment;
 use muqsit\vanillagenerator\generator\ground\DirtAndStonePatchGroundGenerator;
 use muqsit\vanillagenerator\generator\ground\DirtPatchGroundGenerator;
@@ -143,10 +144,11 @@ class OverworldGenerator extends VanillaGenerator{
 		/** @var Chunk $chunk */
 		$chunk = $world->getChunk($chunk_x, $chunk_z);
 
+		$biomeIds = array_values((new \ReflectionClass(BiomeIds::class))->getConstants());
 		for($x = 0; $x < $size_x; ++$x){
 			for($z = 0; $z < $size_z; ++$z){
 				$id = $grid->getBiome($x, $z);
-				if ($id === 0) {
+				if (!in_array($id, $biomeIds, true)) {
 					//This doesn't fix an underlying issue, but I can't be bothered to fix this properly on less than 2 hours of sleep
 					$id = BiomeIds::FLOWER_FOREST;
 				}
