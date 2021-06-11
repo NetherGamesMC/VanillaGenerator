@@ -17,9 +17,11 @@ final class Loader extends PluginBase{
 		if(!extension_loaded('extnoise')){
 			$this->getLogger()->critical("Unable to find the extnoise extension.");
 			$this->getServer()->getPluginManager()->disablePlugin($this);
-		}elseif(($phpver = phpversion('extnoise')) === self::EXT_NOISE_VERSION){
+			return;
+		}elseif(($phpver = phpversion('extnoise')) < self::EXT_NOISE_VERSION){
 			$this->getLogger()->critical("Version " . self::EXT_NOISE_VERSION . " is required, you have $phpver.");
 			$this->getServer()->getPluginManager()->disablePlugin($this);
+			return;
 		}
 
 		$generatorManager = GeneratorManager::getInstance();
