@@ -31,9 +31,6 @@ use Random;
 use SimplexOctaveGenerator;
 use function array_key_exists;
 
-/**
- * @phpstan-extends VanillaGenerator<WorldOctaves<PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, SimplexOctaveGenerator>>
- */
 class OverworldGenerator extends VanillaGenerator{
 
 	/** @var float[] */

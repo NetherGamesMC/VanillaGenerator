@@ -15,9 +15,6 @@ use pocketmine\world\format\Chunk;
 use PerlinOctaveGenerator;
 use Random;
 
-/**
- * @phpstan-extends VanillaGenerator<NetherWorldOctaves<PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator, PerlinOctaveGenerator>>
- */
 class NetherGenerator extends VanillaGenerator{
 
 	protected const COORDINATE_SCALE = 684.412;

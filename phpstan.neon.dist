@@ -1,6 +1,11 @@
+includes:
+	- phpstan-baseline.neon
+
 parameters:
 	level: 6
+	checkMissingIterableValueType: false
 	paths:
 		- src
 	scanDirectories:
-		- phar://PharBuilder/PocketMine-MP.phar
+		- ../../src
+		- ../../vendor
