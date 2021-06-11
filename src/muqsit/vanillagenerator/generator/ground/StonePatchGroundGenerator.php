@@ -8,13 +8,15 @@ use pocketmine\block\VanillaBlocks;
 use Random;
 use pocketmine\world\ChunkManager;
 
-class StonePatchGroundGenerator extends GroundGenerator{
+class StonePatchGroundGenerator extends GroundGenerator
+{
 
-	public function generateTerrainColumn(ChunkManager $world, Random $random, int $x, int $z, int $biome, float $surface_noise) : void{
-		if($surface_noise > 1.0){
+	public function generateTerrainColumn(ChunkManager $world, Random $random, int $x, int $z, int $biome, float $surface_noise): void
+	{
+		if ($surface_noise > 1.0) {
 			$this->setTopMaterial(VanillaBlocks::STONE());
 			$this->setGroundMaterial(VanillaBlocks::STONE());
-		}else{
+		} else {
 			$this->setTopMaterial(VanillaBlocks::GRASS());
 			$this->setGroundMaterial(VanillaBlocks::DIRT());
 		}

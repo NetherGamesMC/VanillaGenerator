@@ -10,9 +10,11 @@ use Random;
 use pocketmine\world\BlockTransaction;
 use pocketmine\world\ChunkManager;
 
-class TallRedwoodTree extends RedwoodTree{
+class TallRedwoodTree extends RedwoodTree
+{
 
-	public function __construct(Random $random, BlockTransaction $transaction){
+	public function __construct(Random $random, BlockTransaction $transaction)
+	{
 		parent::__construct($random, $transaction);
 		$this->setOverridables(
 			BlockLegacyIds::AIR,
@@ -29,38 +31,39 @@ class TallRedwoodTree extends RedwoodTree{
 		$this->setMaxRadius($random->nextBoundedInt($this->height - $this->leaves_height + 1) + 1);
 	}
 
-	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z) : bool{
-		if($this->cannotGenerateAt($source_x, $source_y, $source_z, $world)){
+	public function generate(ChunkManager $world, Random $random, int $source_x, int $source_y, int $source_z): bool
+	{
+		if ($this->cannotGenerateAt($source_x, $source_y, $source_z, $world)) {
 			return false;
 		}
 
 		// generate the leaves
 		$radius = 0;
-		for($y = $source_y + $this->height; $y >= $source_y + $this->leaves_height; --$y){
+		for ($y = $source_y + $this->height; $y >= $source_y + $this->leaves_height; --$y) {
 			// leaves are built from top to bottom
-			for($x = $source_x - $radius; $x <= $source_x + $radius; ++$x){
-				for($z = $source_z - $radius; $z <= $source_z + $radius; ++$z){
-					if(
+			for ($x = $source_x - $radius; $x <= $source_x + $radius; ++$x) {
+				for ($z = $source_z - $radius; $z <= $source_z + $radius; ++$z) {
+					if (
 						(
 							abs($x - $source_x) !== $radius ||
 							abs($z - $source_z) !== $radius ||
 							$radius <= 0
 						) &&
 						$world->getBlockAt($x, $y, $z)->getId() === BlockLegacyIds::AIR
-					){
+					) {
 						$this->transaction->addBlockAt($x, $y, $z, $this->leaves_type);
 					}
 				}
 			}
-			if($radius >= 1 && $y === $source_y + $this->leaves_height + 1){
+			if ($radius >= 1 && $y === $source_y + $this->leaves_height + 1) {
 				--$radius;
-			}elseif($radius < $this->max_radius){
+			} elseif ($radius < $this->max_radius) {
 				++$radius;
 			}
 		}
 
 		// generate the trunk
-		for($y = 0; $y < $this->height - 1; ++$y){
+		for ($y = 0; $y < $this->height - 1; ++$y) {
 			$this->replaceIfAirOrLeaves($source_x, $source_y + $y, $source_z, $this->log_type, $world);
 		}
 

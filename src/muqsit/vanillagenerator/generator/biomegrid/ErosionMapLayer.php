@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\biomegrid;
 
-class ErosionMapLayer extends MapLayer{
+class ErosionMapLayer extends MapLayer
+{
 
-	public function __construct(int $seed, private MapLayer $below_layer){
+	public function __construct(int $seed, private MapLayer $below_layer)
+	{
 		parent::__construct($seed);
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
+	public function generateValues(int $x, int $z, int $size_x, int $size_z): array
+	{
 		$grid_x = $x - 1;
 		$grid_z = $z - 1;
 		$grid_size_x = $size_x + 2;
@@ -18,8 +21,8 @@ class ErosionMapLayer extends MapLayer{
 		$values = $this->below_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
 
 		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		for ($i = 0; $i < $size_z; ++$i) {
+			for ($j = 0; $j < $size_x; ++$j) {
 				// This applies erosion using Rotated Von Neumann neighborhood
 				// it takes a 3x3 grid with a cross shape and analyzes values as follow
 				// X0X
@@ -37,16 +40,16 @@ class ErosionMapLayer extends MapLayer{
 				$center_val = $values[$j + 1 + ($i + 1) * $grid_size_x];
 
 				$this->setCoordsSeed($x + $j, $z + $i);
-				if($center_val !== 0 && ($upper_left_val === 0 || $upper_right_val === 0 || $lower_left_val === 0 || $lower_right_val === 0)){
+				if ($center_val !== 0 && ($upper_left_val === 0 || $upper_right_val === 0 || $lower_left_val === 0 || $lower_right_val === 0)) {
 					$final_values[$j + $i * $size_x] = $this->nextInt(5) === 0 ? 0 : $center_val;
-				}elseif($center_val === 0 && ($upper_left_val !== 0 || $upper_right_val !== 0
-						|| $lower_left_val !== 0 || $lower_right_val !== 0)){
-					if($this->nextInt(3) === 0){
+				} elseif ($center_val === 0 && ($upper_left_val !== 0 || $upper_right_val !== 0
+						|| $lower_left_val !== 0 || $lower_right_val !== 0)) {
+					if ($this->nextInt(3) === 0) {
 						$final_values[$j + $i * $size_x] = $upper_left_val;
-					}else{
+					} else {
 						$final_values[$j + $i * $size_x] = 0;
 					}
-				}else{
+				} else {
 					$final_values[$j + $i * $size_x] = $center_val;
 				}
 			}

@@ -7,9 +7,11 @@ namespace muqsit\vanillagenerator\generator\object\tree;
 use Random;
 use pocketmine\world\BlockTransaction;
 
-class TallBirchTree extends BirchTree{
+class TallBirchTree extends BirchTree
+{
 
-	public function __construct(Random $random, BlockTransaction $transaction){
+	public function __construct(Random $random, BlockTransaction $transaction)
+	{
 		parent::__construct($random, $transaction);
 		$this->setHeight($this->height + $random->nextBoundedInt(7));
 	}

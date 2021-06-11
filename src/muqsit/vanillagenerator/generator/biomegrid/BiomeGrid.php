@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\biomegrid;
 
-interface BiomeGrid{
+interface BiomeGrid
+{
 
 	/**
 	 * Get biome at x, z within chunk being generated
@@ -14,7 +15,7 @@ interface BiomeGrid{
 	 *
 	 * @return int|null
 	 */
-	public function getBiome(int $x, int $z) : ?int;
+	public function getBiome(int $x, int $z): ?int;
 
 	/**
 	 * Set biome at x, z within chunk being generated
@@ -23,5 +24,5 @@ interface BiomeGrid{
 	 * @param int $z - 0-15
 	 * @param int $biome_id
 	 */
-	public function setBiome(int $x, int $z, int $biome_id) : void;
+	public function setBiome(int $x, int $z, int $biome_id): void;
 }

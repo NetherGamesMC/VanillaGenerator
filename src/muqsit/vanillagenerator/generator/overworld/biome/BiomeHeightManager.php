@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\overworld\biome;
 
-final class BiomeHeightManager{
+final class BiomeHeightManager
+{
 
 	private static BiomeHeight $default;
 
 	/** @var BiomeHeight[] */
 	private static array $heights = [];
 
-	public static function init() : void{
+	public static function init(): void
+	{
 		self::$default = new BiomeHeight(0.1, 0.2);
 
 		self::register(new BiomeHeight(-1.0, 0.1), BiomeIds::OCEAN, BiomeIds::FROZEN_OCEAN);
@@ -58,13 +60,15 @@ final class BiomeHeightManager{
 		self::register(new BiomeHeight(1.1, 1.3125), BiomeIds::MUTATED_SAVANNA_ROCK);
 	}
 
-	public static function register(BiomeHeight $height, int ...$biomes) : void{
-		foreach($biomes as $biome){
+	public static function register(BiomeHeight $height, int ...$biomes): void
+	{
+		foreach ($biomes as $biome) {
 			self::$heights[$biome] = $height;
 		}
 	}
 
-	public static function get(int $biome) : BiomeHeight{
+	public static function get(int $biome): BiomeHeight
+	{
 		return self::$heights[$biome] ?? self::$default;
 	}
 }

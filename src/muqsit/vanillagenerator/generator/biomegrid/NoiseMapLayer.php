@@ -7,25 +7,28 @@ namespace muqsit\vanillagenerator\generator\biomegrid;
 use NoiseMapGenerator;
 use Random;
 
-class NoiseMapLayer extends MapLayer{
+class NoiseMapLayer extends MapLayer
+{
 
 	private NoiseMapGenerator $noise_gen;
 
-	public function __construct(int $seed){
+	public function __construct(int $seed)
+	{
 		parent::__construct($seed);
 		//This was once new SimplexNoiseGenerator(Random, 2). TODO: See if there are any implications of being lazy for this
 		$this->noise_gen = NoiseMapGenerator::fromRandomAndOctaves(new Random($seed), 2);
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
+	public function generateValues(int $x, int $z, int $size_x, int $size_z): array
+	{
 		$values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
-				$noise = $this->noise_gen->noise($x + $j, $z + $i,  0.175, 0.8, true) * 4.0;
+		for ($i = 0; $i < $size_z; ++$i) {
+			for ($j = 0; $j < $size_x; ++$j) {
+				$noise = $this->noise_gen->noise($x + $j, $z + $i, 0.175, 0.8, true) * 4.0;
 				$val = 0;
-				if($noise >= 0.05){
+				if ($noise >= 0.05) {
 					$val = $noise <= 0.2 ? 3 : 2;
-				}else{
+				} else {
 					$this->setCoordsSeed($x + $j, $z + $i);
 					$val = $this->nextInt(2) === 0 ? 3 : 0;
 				}

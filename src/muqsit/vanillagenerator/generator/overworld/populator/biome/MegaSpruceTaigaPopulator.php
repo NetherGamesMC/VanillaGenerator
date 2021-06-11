@@ -10,12 +10,14 @@ use muqsit\vanillagenerator\generator\object\tree\TallRedwoodTree;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use muqsit\vanillagenerator\generator\overworld\decorator\types\TreeDecoration;
 
-class MegaSpruceTaigaPopulator extends MegaTaigaPopulator{
+class MegaSpruceTaigaPopulator extends MegaTaigaPopulator
+{
 
 	/** @var TreeDecoration[] */
 	protected static array $TREES;
 
-	protected static function initTrees() : void{
+	protected static function initTrees(): void
+	{
 		self::$TREES = [
 			new TreeDecoration(RedwoodTree::class, 44),
 			new TreeDecoration(TallRedwoodTree::class, 22),
@@ -23,11 +25,13 @@ class MegaSpruceTaigaPopulator extends MegaTaigaPopulator{
 		];
 	}
 
-	public function getBiomes() : ?array{
+	public function getBiomes(): ?array
+	{
 		return [BiomeIds::MUTATED_REDWOOD_TAIGA, BiomeIds::MUTATED_REDWOOD_TAIGA_HILLS];
 	}
 
-	protected function initPopulators() : void{
+	protected function initPopulators(): void
+	{
 		$this->tree_decorator->setTrees(...self::$TREES);
 	}
 }

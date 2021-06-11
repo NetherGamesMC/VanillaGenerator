@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\overworld;
 
-interface WorldType{
+interface WorldType
+{
 
 	public const NORMAL = "DEFAULT";
 	public const FLAT = "FLAT";

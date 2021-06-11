@@ -14,7 +14,8 @@ use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use pocketmine\world\World;
 
-class NetherPopulator implements Populator{
+class NetherPopulator implements Populator
+{
 
 	/** @var Populator[] */
 	private array $in_ground_populators = [];
@@ -29,7 +30,8 @@ class NetherPopulator implements Populator{
 	private MushroomDecorator $brown_mushroom_decorator;
 	private MushroomDecorator $red_mushroom_decorator;
 
-	public function __construct(int $world_height = World::Y_MAX){
+	public function __construct(int $world_height = World::Y_MAX)
+	{
 		$this->ore_populator = new OrePopulator($world_height);
 		$this->in_ground_populators[] = $this->ore_populator;
 
@@ -55,19 +57,22 @@ class NetherPopulator implements Populator{
 		$this->red_mushroom_decorator->setAmount(1);
 	}
 
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk): void
+	{
 		$this->populateInGround($world, $random, $chunk_x, $chunk_z, $chunk);
 		$this->populateOnGround($world, $random, $chunk_x, $chunk_z, $chunk);
 	}
 
-	private function populateInGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		foreach($this->in_ground_populators as $populator){
+	private function populateInGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk): void
+	{
+		foreach ($this->in_ground_populators as $populator) {
 			$populator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
 		}
 	}
 
-	private function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
-		foreach($this->on_ground_populators as $populator){
+	private function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk): void
+	{
+		foreach ($this->on_ground_populators as $populator) {
 			$populator->populate($world, $random, $chunk_x, $chunk_z, $chunk);
 		}
 	}

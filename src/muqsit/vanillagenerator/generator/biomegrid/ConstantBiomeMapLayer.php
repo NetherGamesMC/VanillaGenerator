@@ -4,16 +4,19 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator\biomegrid;
 
-class ConstantBiomeMapLayer extends MapLayer{
+class ConstantBiomeMapLayer extends MapLayer
+{
 
-	public function __construct(int $seed, private int $biome){
+	public function __construct(int $seed, private int $biome)
+	{
 		parent::__construct($seed);
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
+	public function generateValues(int $x, int $z, int $size_x, int $size_z): array
+	{
 		$values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		for ($i = 0; $i < $size_z; ++$i) {
+			for ($j = 0; $j < $size_x; ++$j) {
 				$values[$j + $i * $size_x] = $this->biome;
 			}
 		}

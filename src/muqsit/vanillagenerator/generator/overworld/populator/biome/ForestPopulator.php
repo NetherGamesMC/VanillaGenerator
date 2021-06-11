@@ -15,7 +15,8 @@ use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use Random;
 
-class ForestPopulator extends BiomePopulator{
+class ForestPopulator extends BiomePopulator
+{
 
 	private const BIOMES = [BiomeIds::FOREST, BiomeIds::FOREST_HILLS];
 
@@ -25,7 +26,8 @@ class ForestPopulator extends BiomePopulator{
 	/** @var DoublePlant[] */
 	private static array $DOUBLE_PLANTS;
 
-	public static function init() : void{
+	public static function init(): void
+	{
 		parent::init();
 		self::$DOUBLE_PLANTS = [
 			VanillaBlocks::LILAC(),
@@ -34,7 +36,8 @@ class ForestPopulator extends BiomePopulator{
 		];
 	}
 
-	protected static function initTrees() : void{
+	protected static function initTrees(): void
+	{
 		self::$TREES = [
 			new TreeDecoration(GenericTree::class, 4),
 			new TreeDecoration(BirchTree::class, 1)
@@ -44,29 +47,32 @@ class ForestPopulator extends BiomePopulator{
 	/** @var int */
 	protected int $double_plant_lowering_amount = 3;
 
-	protected function initPopulators() : void{
+	protected function initPopulators(): void
+	{
 		$this->double_plant_decorator->setAmount(0);
 		$this->tree_decorator->setAmount(10);
 		$this->tree_decorator->setTrees(...self::$TREES);
 		$this->tall_grass_decorator->setAmount(2);
 	}
 
-	public function getBiomes() : ?array{
+	public function getBiomes(): ?array
+	{
 		return self::BIOMES;
 	}
 
-	public function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function populateOnGround(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk): void
+	{
 		$source_x = $chunk_x << 4;
 		$source_z = $chunk_z << 4;
 		$amount = $random->nextBoundedInt(5) - $this->double_plant_lowering_amount;
 		$i = 0;
-		while($i < $amount){
-			for($j = 0; $j < 5; ++$j, ++$i){
+		while ($i < $amount) {
+			for ($j = 0; $j < 5; ++$j, ++$i) {
 				$x = $random->nextBoundedInt(16);
 				$z = $random->nextBoundedInt(16);
 				$y = $random->nextBoundedInt($chunk->getHighestBlockAt($x, $z) + 32);
 				$species = self::$DOUBLE_PLANTS[$random->nextBoundedInt(count(self::$DOUBLE_PLANTS))];
-				if((new DoubleTallPlant($species))->generate($world, $random, $source_x + $x, $y, $source_z + $z)){
+				if ((new DoubleTallPlant($species))->generate($world, $random, $source_x + $x, $y, $source_z + $z)) {
 					++$i;
 					break;
 				}

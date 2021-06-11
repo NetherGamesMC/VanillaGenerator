@@ -8,7 +8,8 @@ use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use ReflectionClass;
 use function array_key_exists;
 
-class BiomeVariationMapLayer extends MapLayer{
+class BiomeVariationMapLayer extends MapLayer
+{
 
 	/** @var int[] */
 	private static array $ISLANDS = [BiomeIds::PLAINS, BiomeIds::FOREST];
@@ -36,9 +37,10 @@ class BiomeVariationMapLayer extends MapLayer{
 	/** @var string[] */
 	private static array $BIOMES;
 
-	public static function init() : void{
+	public static function init(): void
+	{
 		self::$BIOMES = [];
-		foreach((new ReflectionClass(BiomeIds::class))->getConstants() as $const => $biomeId){
+		foreach ((new ReflectionClass(BiomeIds::class))->getConstants() as $const => $biomeId) {
 			self::$BIOMES[$biomeId] = $const;
 		}
 	}
@@ -47,12 +49,14 @@ class BiomeVariationMapLayer extends MapLayer{
 		int $seed,
 		private MapLayer $below_layer,
 		private ?MapLayer $variation_layer = null
-	){
+	)
+	{
 		parent::__construct($seed);
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
-		if($this->variation_layer === null){
+	public function generateValues(int $x, int $z, int $size_x, int $size_z): array
+	{
+		if ($this->variation_layer === null) {
 			return $this->generateRandomValues($x, $z, $size_x, $size_z);
 		}
 
@@ -70,13 +74,14 @@ class BiomeVariationMapLayer extends MapLayer{
 	 *
 	 * @return int[] a flattened array of generated values
 	 */
-	public function generateRandomValues(int $x, int $z, int $size_x, int $size_z) : array{
+	public function generateRandomValues(int $x, int $z, int $size_x, int $size_z): array
+	{
 		$values = $this->below_layer->generateValues($x, $z, $size_x, $size_z);
 		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		for ($i = 0; $i < $size_z; ++$i) {
+			for ($j = 0; $j < $size_x; ++$j) {
 				$val = $values[$j + $i * $size_x];
-				if($val > 0){
+				if ($val > 0) {
 					$this->setCoordsSeed($x + $j, $z + $i);
 					$val = $this->nextInt(30) + 2;
 				}
@@ -97,7 +102,8 @@ class BiomeVariationMapLayer extends MapLayer{
 	 *
 	 * @return int[] a flattened array of generated values
 	 */
-	public function mergeValues(int $x, int $z, int $size_x, int $size_z) : array{
+	public function mergeValues(int $x, int $z, int $size_x, int $size_z): array
+	{
 		$grid_x = $x - 1;
 		$grid_z = $z - 1;
 		$grid_size_x = $size_x + 2;
@@ -107,43 +113,43 @@ class BiomeVariationMapLayer extends MapLayer{
 		$variation_values = $this->variation_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
 
 		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		for ($i = 0; $i < $size_z; ++$i) {
+			for ($j = 0; $j < $size_x; ++$j) {
 				$this->setCoordsSeed($x + $j, $z + $i);
 				$center_value = $values[$j + 1 + ($i + 1) * $grid_size_x];
 				$variation_value = $variation_values[$j + 1 + ($i + 1) * $grid_size_x];
-				if($center_value !== 0 && $variation_value === 3 && $center_value < 128){
+				if ($center_value !== 0 && $variation_value === 3 && $center_value < 128) {
 					$final_values[$j + $i * $size_x] = array_key_exists($center_value + 128, self::$BIOMES) ? $center_value + 128 : $center_value;
-				}elseif($variation_value === 2 || $this->nextInt(3) === 0){
+				} elseif ($variation_value === 2 || $this->nextInt(3) === 0) {
 					$val = $center_value;
-					if(array_key_exists($center_value, self::$VARIATIONS)){
+					if (array_key_exists($center_value, self::$VARIATIONS)) {
 						$val = self::$VARIATIONS[$center_value][$this->nextInt(count(self::$VARIATIONS[$center_value]))];
-					}elseif($center_value === BiomeIds::DEEP_OCEAN && $this->nextInt(3) === 0){
+					} elseif ($center_value === BiomeIds::DEEP_OCEAN && $this->nextInt(3) === 0) {
 						$val = self::$ISLANDS[$this->nextInt(count(self::$ISLANDS))];
 					}
-					if($variation_value === 2 && $val !== $center_value){
+					if ($variation_value === 2 && $val !== $center_value) {
 						$val = array_key_exists($val + 128, self::$BIOMES) ? $val + 128 : $center_value;
 					}
-					if($val !== $center_value){
+					if ($val !== $center_value) {
 						$count = 0;
-						if($values[$j + 1 + $i * $grid_size_x] === $center_value){ // upper value
+						if ($values[$j + 1 + $i * $grid_size_x] === $center_value) { // upper value
 							++$count;
 						}
-						if($values[$j + 1 + ($i + 2) * $grid_size_x] === $center_value){ // lower value
+						if ($values[$j + 1 + ($i + 2) * $grid_size_x] === $center_value) { // lower value
 							++$count;
 						}
-						if($values[$j + ($i + 1) * $grid_size_x] === $center_value){ // left value
+						if ($values[$j + ($i + 1) * $grid_size_x] === $center_value) { // left value
 							++$count;
 						}
-						if($values[$j + 2 + ($i + 1) * $grid_size_x] === $center_value){ // right value
+						if ($values[$j + 2 + ($i + 1) * $grid_size_x] === $center_value) { // right value
 							++$count;
 						}
 						// spread mountains if not too close from an edge
 						$final_values[$j + $i * $size_x] = $count < 3 ? $center_value : $val;
-					}else{
+					} else {
 						$final_values[$j + $i * $size_x] = $val;
 					}
-				}else{
+				} else {
 					$final_values[$j + $i * $size_x] = $center_value;
 				}
 			}

@@ -7,16 +7,19 @@ namespace muqsit\vanillagenerator\generator\biomegrid;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
 use function array_key_exists;
 
-class RarePlainsMapLayer extends MapLayer{
+class RarePlainsMapLayer extends MapLayer
+{
 
 	/** @var int[] */
 	private static array $RARE_PLAINS = [BiomeIds::PLAINS => BiomeIds::MUTATED_PLAINS];
 
-	public function __construct(int $seed, private MapLayer $below_layer){
+	public function __construct(int $seed, private MapLayer $below_layer)
+	{
 		parent::__construct($seed);
 	}
 
-	public function generateValues(int $x, int $z, int $size_x, int $size_z) : array{
+	public function generateValues(int $x, int $z, int $size_x, int $size_z): array
+	{
 		$grid_x = $x - 1;
 		$grid_z = $z - 1;
 		$grid_size_x = $size_x + 2;
@@ -25,11 +28,11 @@ class RarePlainsMapLayer extends MapLayer{
 		$values = $this->below_layer->generateValues($grid_x, $grid_z, $grid_size_x, $grid_size_z);
 
 		$final_values = [];
-		for($i = 0; $i < $size_z; ++$i){
-			for($j = 0; $j < $size_x; ++$j){
+		for ($i = 0; $i < $size_z; ++$i) {
+			for ($j = 0; $j < $size_x; ++$j) {
 				$this->setCoordsSeed($x + $j, $z + $i);
 				$center_value = $values[$j + 1 + ($i + 1) * $grid_size_x];
-				if($this->nextInt(57) === 0 && array_key_exists($center_value, self::$RARE_PLAINS)){
+				if ($this->nextInt(57) === 0 && array_key_exists($center_value, self::$RARE_PLAINS)) {
 					$center_value = self::$RARE_PLAINS[$center_value];
 				}
 

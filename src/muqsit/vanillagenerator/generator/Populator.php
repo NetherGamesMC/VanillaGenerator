@@ -8,7 +8,8 @@ use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 use Random;
 
-interface Populator{
+interface Populator
+{
 
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void;
+	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk): void;
 }

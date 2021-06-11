@@ -13,9 +13,11 @@ use Random;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
 
-class SnowPopulator implements Populator{
+class SnowPopulator implements Populator
+{
 
-	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk) : void{
+	public function populate(ChunkManager $world, Random $random, int $chunk_x, int $chunk_z, Chunk $chunk): void
+	{
 		$source_x = $chunk_x << 4;
 		$source_z = $chunk_z << 4;
 
@@ -26,13 +28,13 @@ class SnowPopulator implements Populator{
 
 		$world_height = $world->getMaxY();
 
-		for($x = 0; $x < 16; ++$x){
-			for($z = 0; $z < 16; ++$z){
+		for ($x = 0; $x < 16; ++$x) {
+			for ($z = 0; $z < 16; ++$z) {
 				$highest_y = $chunk->getHighestBlockAt($x, $z);
-				if($highest_y > 0 && $highest_y < $world_height - 1){
+				if ($highest_y > 0 && $highest_y < $world_height - 1) {
 					$y = $highest_y - 1;
-					if(BiomeClimateManager::isSnowy($chunk->getBiomeId($x, $z), $source_x + $x, $y, $source_z + $z)){
-						switch($block_factory->fromFullBlock($chunk->getFullBlock($x, $y, $z))->getId()){
+					if (BiomeClimateManager::isSnowy($chunk->getBiomeId($x, $z), $source_x + $x, $y, $source_z + $z)) {
+						switch ($block_factory->fromFullBlock($chunk->getFullBlock($x, $y, $z))->getId()) {
 							case BlockLegacyIds::FLOWING_WATER:
 							case BlockLegacyIds::STILL_WATER:
 							case BlockLegacyIds::SNOW:
@@ -48,12 +50,12 @@ class SnowPopulator implements Populator{
 								break;
 							case BlockLegacyIds::DIRT:
 								$chunk->setFullBlock($x, $y, $z, $grass);
-								if($chunk->getFullBlock($x, $y + 1, $z) === $air){
+								if ($chunk->getFullBlock($x, $y + 1, $z) === $air) {
 									$chunk->setFullBlock($x, $y + 1, $z, $snow_layer);
 								}
 								break;
 							default:
-								if($chunk->getFullBlock($x, $y + 1, $z) === $air){
+								if ($chunk->getFullBlock($x, $y + 1, $z) === $air) {
 									$chunk->setFullBlock($x, $y + 1, $z, $snow_layer);
 								}
 								break;

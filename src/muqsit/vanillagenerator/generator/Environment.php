@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace muqsit\vanillagenerator\generator;
 
-interface Environment{
+interface Environment
+{
 
 	public const OVERWORLD = 0;
 	public const NETHER = -1;

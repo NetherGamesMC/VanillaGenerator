@@ -8,15 +8,17 @@ use pocketmine\block\utils\TreeType;
 use Random;
 use pocketmine\world\BlockTransaction;
 
-class JungleTree extends GenericTree{
+class JungleTree extends GenericTree
+{
 
 	/**
 	 * Initializes this tree with a random height, preparing it to attempt to generate.
 	 *
-	 * @param Random           $random
+	 * @param Random $random
 	 * @param BlockTransaction $transaction
 	 */
-	public function __construct(Random $random, BlockTransaction $transaction){
+	public function __construct(Random $random, BlockTransaction $transaction)
+	{
 		parent::__construct($random, $transaction);
 		$this->setHeight($random->nextBoundedInt(7) + 4);
 		$this->setType(TreeType::JUNGLE());
