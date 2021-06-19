@@ -8,11 +8,16 @@ use muqsit\vanillagenerator\generator\biomegrid\MapLayer;
 use muqsit\vanillagenerator\generator\biomegrid\utils\MapLayerPair;
 use muqsit\vanillagenerator\generator\overworld\WorldType;
 use muqsit\vanillagenerator\generator\utils\WorldOctaves;
+use OverworldChunkPopulator;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
+use pocketmine\world\format\PalettedBlockArray;
+use pocketmine\world\format\SubChunk;
 use pocketmine\world\generator\Generator;
 use pocketmine\world\World;
 use Random;
+use ReflectionException;
+use ReflectionObject;
 
 abstract class VanillaGenerator extends Generator
 {
@@ -32,6 +37,8 @@ abstract class VanillaGenerator extends Generator
 		parent::__construct($seed, $preset);
 		$this->random = new Random($seed);
 		$this->biome_grid = MapLayer::initialize($seed, $environment, $world_type ?? WorldType::NORMAL);
+
+		OverworldChunkPopulator::init();
 	}
 
 	/**
@@ -99,13 +106,54 @@ abstract class VanillaGenerator extends Generator
 		return $this->populators;
 	}
 
+	/**
+	 * @throws ReflectionException
+	 */
 	public function populateChunk(ChunkManager $world, int $chunk_x, int $chunk_z): void
 	{
 		/** @var Chunk $chunk */
 		$chunk = $world->getChunk($chunk_x, $chunk_z);
-		foreach ($this->populators as $populator) {
-			$populator->populate($world, $this->random, $chunk_x, $chunk_z, $chunk);
+
+//		$start = microtime(true);
+//
+//		foreach ($this->populators as $populator) {
+//			$populator->populate($world, $this->random, $chunk_x, $chunk_z, $chunk);
+//		}
+
+		$start = microtime(true);
+
+		$r = new ReflectionObject($world);
+		$p = $r->getProperty('chunks');
+		$p->setAccessible(true);
+
+		$pelletedEntries = [];
+
+		/**
+		 * @var int $hash
+		 * @var Chunk $chunkVal
+		 */
+		foreach ($p->getValue($world) as $hash => $chunkVal) {
+			$array = array_fill(0, 16, null);
+
+			foreach ($chunkVal->getSubChunks() as $y => $subChunk) {
+				if (!$subChunk->isEmptyFast()) {
+					$array[$y] = $subChunk->getBlockLayers()[0];
+				} else {
+					$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
+					$chunkVal->setSubChunk($y, $newSubChunk);
+
+					$array[$y] = $newSubChunk->getBlockLayers()[0];
+				}
+			}
+
+			$pelletedEntries[$hash] = $array;
 		}
+
+		OverworldChunkPopulator::populateChunk($pelletedEntries, World::chunkHash($chunk_x, $chunk_z), $this->random, $chunk->getBiomeIdArray());
+
+		$end = microtime(true);
+
+		print "Took " . round(($end - $start) * 1000, 3) . "ms to execute" . PHP_EOL;
 	}
 
 	public function getMaxY(): int

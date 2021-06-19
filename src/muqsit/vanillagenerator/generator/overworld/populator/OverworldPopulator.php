@@ -44,25 +44,25 @@ class OverworldPopulator implements Populator
 	public function __construct()
 	{
 		$this->registerBiomePopulator(new BiomePopulator()); // defaults applied to all biomes
-		$this->registerBiomePopulator(new PlainsPopulator());
-		$this->registerBiomePopulator(new SunflowerPlainsPopulator());
-		$this->registerBiomePopulator(new ForestPopulator());
-		$this->registerBiomePopulator(new BirchForestPopulator());
-		$this->registerBiomePopulator(new BirchForestMountainsPopulator());
-		$this->registerBiomePopulator(new RoofedForestPopulator());
-		$this->registerBiomePopulator(new FlowerForestPopulator());
-		$this->registerBiomePopulator(new DesertPopulator());
-		$this->registerBiomePopulator(new DesertMountainsPopulator());
-		$this->registerBiomePopulator(new JunglePopulator());
-		$this->registerBiomePopulator(new JungleEdgePopulator());
-		$this->registerBiomePopulator(new SwamplandPopulator());
-		$this->registerBiomePopulator(new TaigaPopulator());
-		$this->registerBiomePopulator(new MegaTaigaPopulator());
-		$this->registerBiomePopulator(new MegaSpruceTaigaPopulator());
-		$this->registerBiomePopulator(new IcePlainsPopulator());
-		$this->registerBiomePopulator(new IcePlainsSpikesPopulator());
-		$this->registerBiomePopulator(new SavannaPopulator());
-		$this->registerBiomePopulator(new SavannaMountainsPopulator());
+//		$this->registerBiomePopulator(new PlainsPopulator());
+//		$this->registerBiomePopulator(new SunflowerPlainsPopulator());
+//		$this->registerBiomePopulator(new ForestPopulator());
+//		$this->registerBiomePopulator(new BirchForestPopulator());
+//		$this->registerBiomePopulator(new BirchForestMountainsPopulator());
+//		$this->registerBiomePopulator(new RoofedForestPopulator());
+//		$this->registerBiomePopulator(new FlowerForestPopulator());
+//		$this->registerBiomePopulator(new DesertPopulator());
+//		$this->registerBiomePopulator(new DesertMountainsPopulator());
+//		$this->registerBiomePopulator(new JunglePopulator());
+//		$this->registerBiomePopulator(new JungleEdgePopulator());
+//		$this->registerBiomePopulator(new SwamplandPopulator());
+//		$this->registerBiomePopulator(new TaigaPopulator());
+//		$this->registerBiomePopulator(new MegaTaigaPopulator());
+//		$this->registerBiomePopulator(new MegaSpruceTaigaPopulator());
+//		$this->registerBiomePopulator(new IcePlainsPopulator());
+//		$this->registerBiomePopulator(new IcePlainsSpikesPopulator());
+//		$this->registerBiomePopulator(new SavannaPopulator());
+//		$this->registerBiomePopulator(new SavannaMountainsPopulator());
 		/*
 		$this->registerBiomePopulator(new ExtremeHillsPopulator());
 		$this->registerBiomePopulator(new ExtremeHillsPlusPopulator());
