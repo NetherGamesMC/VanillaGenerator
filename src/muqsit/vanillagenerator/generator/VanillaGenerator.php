@@ -111,21 +111,19 @@ abstract class VanillaGenerator extends Generator
 	 */
 	public function populateChunk(ChunkManager $world, int $chunk_x, int $chunk_z): void
 	{
-		/** @var Chunk $chunk */
-		$chunk = $world->getChunk($chunk_x, $chunk_z);
-
 //		$start = microtime(true);
-//
+
 //		foreach ($this->populators as $populator) {
 //			$populator->populate($world, $this->random, $chunk_x, $chunk_z, $chunk);
 //		}
-
+//
 		$start = microtime(true);
 
 		$r = new ReflectionObject($world);
 		$p = $r->getProperty('chunks');
 		$p->setAccessible(true);
 
+		$biomeEntries = [];
 		$pelletedEntries = [];
 
 		/**
@@ -133,7 +131,7 @@ abstract class VanillaGenerator extends Generator
 		 * @var Chunk $chunkVal
 		 */
 		foreach ($p->getValue($world) as $hash => $chunkVal) {
-			$array = array_fill(0, 16, null);
+			$array = [];
 
 			foreach ($chunkVal->getSubChunks() as $y => $subChunk) {
 				if (!$subChunk->isEmptyFast()) {
@@ -147,9 +145,14 @@ abstract class VanillaGenerator extends Generator
 			}
 
 			$pelletedEntries[$hash] = $array;
+			$biomeEntries[$hash] = $chunkVal->getBiomeIdArray();
+
+			// TODO: Allow populateChunk() itself to tell which chunk is dirty, this is a nasty hack
+			// 		 to allow PopulateTask to serialize this into the main thread.
+			$chunkVal->setDirty();
 		}
 
-		OverworldChunkPopulator::populateChunk($pelletedEntries, World::chunkHash($chunk_x, $chunk_z), $this->random, $chunk->getBiomeIdArray());
+		OverworldChunkPopulator::populateChunk($pelletedEntries, $biomeEntries, World::chunkHash($chunk_x, $chunk_z), $this->random);
 
 		$end = microtime(true);
 
