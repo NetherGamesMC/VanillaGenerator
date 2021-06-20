@@ -125,6 +125,7 @@ abstract class VanillaGenerator extends Generator
 
 		$biomeEntries = [];
 		$pelletedEntries = [];
+		$dirtyEntries = [];
 
 		/**
 		 * @var int $hash
@@ -146,13 +147,18 @@ abstract class VanillaGenerator extends Generator
 
 			$pelletedEntries[$hash] = $array;
 			$biomeEntries[$hash] = $chunkVal->getBiomeIdArray();
-
-			// TODO: Allow populateChunk() itself to tell which chunk is dirty, this is a nasty hack
-			// 		 to allow PopulateTask to serialize this into the main thread.
-			$chunkVal->setDirty();
+			$dirtyEntries[$hash] = $chunkVal->isDirty();
 		}
 
-		OverworldChunkPopulator::populateChunk($pelletedEntries, $biomeEntries, World::chunkHash($chunk_x, $chunk_z), $this->random);
+		OverworldChunkPopulator::populateChunk($pelletedEntries, $biomeEntries, $dirtyEntries, World::chunkHash($chunk_x, $chunk_z), $this->random);
+
+		foreach ($dirtyEntries as $hash => $dirtyEntry) {
+			World::getXZ($hash, $x, $z);
+
+			if ($dirtyEntry) {
+				$world->getChunk($x, $z)->setDirty();
+			}
+		}
 
 		$end = microtime(true);
 
