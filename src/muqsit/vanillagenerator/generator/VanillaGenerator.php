@@ -32,13 +32,16 @@ abstract class VanillaGenerator extends Generator
 	/** @var Random $random */
 	protected $random;
 
+	/** @var OverworldChunkPopulator */
+	private OverworldChunkPopulator $populator;
+
 	public function __construct(int $seed, int $environment, ?string $world_type = null, string $preset = "")
 	{
 		parent::__construct($seed, $preset);
 		$this->random = new Random($seed);
 		$this->biome_grid = MapLayer::initialize($seed, $environment, $world_type ?? WorldType::NORMAL);
 
-		OverworldChunkPopulator::init();
+		$this->populator = new OverworldChunkPopulator();
 	}
 
 	/**
@@ -150,7 +153,7 @@ abstract class VanillaGenerator extends Generator
 			$dirtyEntries[$hash] = $chunkVal->isDirty();
 		}
 
-		OverworldChunkPopulator::populateChunk($pelletedEntries, $biomeEntries, $dirtyEntries, World::chunkHash($chunk_x, $chunk_z), $this->random);
+		$this->populator->populateChunk($pelletedEntries, $biomeEntries, $dirtyEntries, World::chunkHash($chunk_x, $chunk_z), $this->random);
 
 		foreach ($dirtyEntries as $hash => $dirtyEntry) {
 			World::getXZ($hash, $x, $z);
