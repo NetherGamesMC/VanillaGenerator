@@ -8,16 +8,15 @@ use muqsit\vanillagenerator\generator\biomegrid\MapLayer;
 use muqsit\vanillagenerator\generator\biomegrid\utils\MapLayerPair;
 use muqsit\vanillagenerator\generator\overworld\WorldType;
 use muqsit\vanillagenerator\generator\utils\WorldOctaves;
-use OverworldChunkPopulator;
+use OverworldGenerator;
 use pocketmine\world\ChunkManager;
-use pocketmine\world\format\Chunk;
+use pocketmine\world\format\BiomeArray;
 use pocketmine\world\format\PalettedBlockArray;
 use pocketmine\world\format\SubChunk;
 use pocketmine\world\generator\Generator;
 use pocketmine\world\World;
 use Random;
 use ReflectionException;
-use ReflectionObject;
 
 abstract class VanillaGenerator extends Generator
 {
@@ -32,8 +31,8 @@ abstract class VanillaGenerator extends Generator
 	/** @var Random $random */
 	protected $random;
 
-	/** @var OverworldChunkPopulator */
-	private OverworldChunkPopulator $populator;
+	/** @var OverworldGenerator */
+	private OverworldGenerator $generator;
 
 	public function __construct(int $seed, int $environment, ?string $world_type = null, string $preset = "")
 	{
@@ -41,7 +40,7 @@ abstract class VanillaGenerator extends Generator
 		$this->random = new Random($seed);
 		$this->biome_grid = MapLayer::initialize($seed, $environment, $world_type ?? WorldType::NORMAL);
 
-		$this->populator = new OverworldChunkPopulator();
+		$this->generator = new OverworldGenerator($seed);
 	}
 
 	/**
@@ -82,13 +81,35 @@ abstract class VanillaGenerator extends Generator
 
 	public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void
 	{
-		$biomes = new VanillaBiomeGrid();
-		$biome_values = $this->biome_grid->high_resolution->generateValues($chunkX * 16, $chunkZ * 16, 16, 16);
-		for ($i = 0, $biome_values_c = count($biome_values); $i < $biome_values_c; ++$i) {
-			$biomes->biomes[$i] = $biome_values[$i];
+		$startMem = memory_get_usage(true);
+		$start = microtime(true);
+		$chunk = $world->getChunk($chunkX, $chunkZ);
+
+		$biomeData = $chunk->getBiomeIdArray();
+		$pelletedEntries = [];
+
+		foreach ($chunk->getSubChunks() as $y => $subChunk) {
+			if (!$subChunk->isEmptyFast()) {
+				$pelletedEntries[$y] = $subChunk->getBlockLayers()[0];
+			} else {
+				$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
+				$chunk->setSubChunk($y, $newSubChunk);
+
+				$pelletedEntries[$y] = $newSubChunk->getBlockLayers()[0];
+			}
 		}
 
-		$this->generateChunkData($world, $chunkX, $chunkZ, $biomes);
+		$biomes = $this->generator->generateChunk($pelletedEntries, $biomeData, World::chunkHash($chunkX, $chunkZ));
+
+		(function () use ($biomes): void {
+			/** @noinspection PhpUndefinedFieldInspection */
+			$this->biomeIds = new BiomeArray($biomes);
+		})->call($chunk);
+
+		$end = microtime(true);
+		$endMem = memory_get_usage(true);
+
+		print "Terrain population " . round(($end - $start) * 1000, 2) . 'ms ' . "$startMem $endMem \r\n";
 	}
 
 	abstract protected function generateChunkData(ChunkManager $world, int $chunk_x, int $chunk_z, VanillaBiomeGrid $biomes): void;
@@ -120,52 +141,52 @@ abstract class VanillaGenerator extends Generator
 //			$populator->populate($world, $this->random, $chunk_x, $chunk_z, $chunk);
 //		}
 //
-		$start = microtime(true);
-
-		$r = new ReflectionObject($world);
-		$p = $r->getProperty('chunks');
-		$p->setAccessible(true);
-
-		$biomeEntries = [];
-		$pelletedEntries = [];
-		$dirtyEntries = [];
-
-		/**
-		 * @var int $hash
-		 * @var Chunk $chunkVal
-		 */
-		foreach ($p->getValue($world) as $hash => $chunkVal) {
-			$array = [];
-
-			foreach ($chunkVal->getSubChunks() as $y => $subChunk) {
-				if (!$subChunk->isEmptyFast()) {
-					$array[$y] = $subChunk->getBlockLayers()[0];
-				} else {
-					$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
-					$chunkVal->setSubChunk($y, $newSubChunk);
-
-					$array[$y] = $newSubChunk->getBlockLayers()[0];
-				}
-			}
-
-			$pelletedEntries[$hash] = $array;
-			$biomeEntries[$hash] = $chunkVal->getBiomeIdArray();
-			$dirtyEntries[$hash] = $chunkVal->isDirty();
-		}
-
-		$this->populator->populateChunk($pelletedEntries, $biomeEntries, $dirtyEntries, World::chunkHash($chunk_x, $chunk_z), $this->random);
-
-		foreach ($dirtyEntries as $hash => $dirtyEntry) {
-			World::getXZ($hash, $x, $z);
-
-			if ($dirtyEntry) {
-				$world->getChunk($x, $z)->setDirty();
-			}
-		}
-
-		$end = microtime(true);
-
-		print "Took " . round(($end - $start) * 1000, 3) . "ms to execute" . PHP_EOL;
+//		$start = microtime(true);
+//
+//		$r = new ReflectionObject($world);
+//		$p = $r->getProperty('chunks');
+//		$p->setAccessible(true);
+//
+//		$biomeEntries = [];
+//		$pelletedEntries = [];
+//		$dirtyEntries = [];
+//
+//		/**
+//		 * @var int $hash
+//		 * @var Chunk $chunkVal
+//		 */
+//		foreach ($p->getValue($world) as $hash => $chunkVal) {
+//			$array = [];
+//
+//			foreach ($chunkVal->getSubChunks() as $y => $subChunk) {
+//				if (!$subChunk->isEmptyFast()) {
+//					$array[$y] = $subChunk->getBlockLayers()[0];
+//				} else {
+//					$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
+//					$chunkVal->setSubChunk($y, $newSubChunk);
+//
+//					$array[$y] = $newSubChunk->getBlockLayers()[0];
+//				}
+//			}
+//
+//			$pelletedEntries[$hash] = $array;
+//			$biomeEntries[$hash] = $chunkVal->getBiomeIdArray();
+//			$dirtyEntries[$hash] = $chunkVal->isDirty();
+//		}
+//
+//		$this->generator->populateChunk($pelletedEntries, $biomeEntries, $dirtyEntries, World::chunkHash($chunk_x, $chunk_z));
+//
+//		foreach ($dirtyEntries as $hash => $dirtyEntry) {
+//			World::getXZ($hash, $x, $z);
+//
+//			if ($dirtyEntry) {
+//				$world->getChunk($x, $z)->setDirty();
+//			}
+//		}
+//
+//		$end = microtime(true);
+//
+//		print "Took " . round(($end - $start) * 1000, 3) . "ms to execute" . PHP_EOL;
 	}
 
 	public function getMaxY(): int

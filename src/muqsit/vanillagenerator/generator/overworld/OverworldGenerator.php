@@ -17,16 +17,14 @@ use muqsit\vanillagenerator\generator\ground\SnowyGroundGenerator;
 use muqsit\vanillagenerator\generator\ground\StonePatchGroundGenerator;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeHeightManager;
 use muqsit\vanillagenerator\generator\overworld\biome\BiomeIds;
-use muqsit\vanillagenerator\generator\overworld\populator\CavePopulator;
 use muqsit\vanillagenerator\generator\overworld\populator\OverworldPopulator;
-use muqsit\vanillagenerator\generator\overworld\populator\SnowPopulator;
 use muqsit\vanillagenerator\generator\utils\WorldOctaves;
 use muqsit\vanillagenerator\generator\VanillaBiomeGrid;
 use muqsit\vanillagenerator\generator\VanillaGenerator;
+use PerlinOctaveGenerator;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\Chunk;
-use PerlinOctaveGenerator;
 use Random;
 use SimplexOctaveGenerator;
 use function array_key_exists;
@@ -286,6 +284,8 @@ class OverworldGenerator extends VanillaGenerator
 				}
 			}
 		}
+
+		unset($density);
 	}
 
 	/**

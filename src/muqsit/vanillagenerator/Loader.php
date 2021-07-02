@@ -12,7 +12,7 @@ use pocketmine\world\generator\GeneratorManager;
 final class Loader extends PluginBase
 {
 
-	private const EXT_NOISE_VERSION = "2.0.0";
+	private const EXT_NOISE_VERSION = "2.1.0";
 
 	public function onLoad(): void
 	{
