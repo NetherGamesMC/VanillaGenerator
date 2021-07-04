@@ -10,6 +10,6 @@ parameters:
 	paths:
 		- src
 	stubFiles:
-		- stubs/stubs.php
+		- stubs/mcgenerator.stub
 	scanDirectories:
 		- phar://PharBuilder/PocketMine-MP.phar
