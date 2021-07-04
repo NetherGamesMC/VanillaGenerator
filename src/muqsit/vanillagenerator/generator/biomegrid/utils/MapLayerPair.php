@@ -10,7 +10,7 @@ final class MapLayerPair
 {
 
 	public function __construct(
-		public MapLayer $high_resolution,
+		public ?MapLayer $high_resolution,
 		public ?MapLayer $low_resolution
 	)
 	{

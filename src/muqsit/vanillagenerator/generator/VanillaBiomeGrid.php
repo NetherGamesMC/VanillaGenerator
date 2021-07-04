@@ -9,7 +9,6 @@ use function array_key_exists;
 
 class VanillaBiomeGrid implements BiomeGrid
 {
-
 	/** @var int[] */
 	public array $biomes = [];
 

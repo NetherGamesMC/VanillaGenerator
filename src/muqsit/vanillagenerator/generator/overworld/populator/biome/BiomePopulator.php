@@ -137,22 +137,22 @@ class BiomePopulator implements Populator
 			$this->water_lake_decorator,
 			$this->lava_lake_decorator,
 			$this->ore_populator,
-//			$this->sand_patch_decorator,
-//			$this->clay_patch_decorator,
-//			$this->gravel_patch_decorator
+			$this->sand_patch_decorator,
+			$this->clay_patch_decorator,
+			$this->gravel_patch_decorator
 		);
 
 		array_push($this->on_ground_populators,
-//			$this->double_plant_decorator,
-//			$this->tree_decorator,
-//			$this->flower_decorator,
-//			$this->tall_grass_decorator,
-//			$this->dead_bush_decorator,
-//			$this->brown_mushroom_decorator,
-//			$this->red_mushroom_decorator,
-//			$this->sugar_cane_decorator,
-//			$this->pumpkin_decorator,
-//			$this->cactus_decorator
+			$this->double_plant_decorator,
+			$this->tree_decorator,
+			$this->flower_decorator,
+			$this->tall_grass_decorator,
+			$this->dead_bush_decorator,
+			$this->brown_mushroom_decorator,
+			$this->red_mushroom_decorator,
+			$this->sugar_cane_decorator,
+			$this->pumpkin_decorator,
+			$this->cactus_decorator
 		);
 
 		$this->initPopulators();

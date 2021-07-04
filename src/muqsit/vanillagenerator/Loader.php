@@ -12,16 +12,16 @@ use pocketmine\world\generator\GeneratorManager;
 final class Loader extends PluginBase
 {
 
-	private const EXT_NOISE_VERSION = "2.1.0";
+	private const EXT_MCGENERATOR_VERSION = "2.1.0";
 
 	public function onLoad(): void
 	{
-		if (!extension_loaded('extnoise')) {
-			$this->getLogger()->critical("Unable to find the extnoise extension.");
+		if (!extension_loaded('mcgenerator')) {
+			$this->getLogger()->critical("Unable to find the mcgenerator extension.");
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 			return;
-		} elseif (($phpver = phpversion('extnoise')) < self::EXT_NOISE_VERSION) {
-			$this->getLogger()->critical("Version " . self::EXT_NOISE_VERSION . " is required, you have $phpver.");
+		} elseif (($phpver = phpversion('mcgenerator')) < self::EXT_MCGENERATOR_VERSION) {
+			$this->getLogger()->critical("mcgenerator extension version " . self::EXT_MCGENERATOR_VERSION . " is required, you have $phpver.");
 			$this->getServer()->getPluginManager()->disablePlugin($this);
 			return;
 		}

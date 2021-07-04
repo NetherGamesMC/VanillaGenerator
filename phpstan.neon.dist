@@ -9,5 +9,7 @@ parameters:
 		processTimeout: 180.0
 	paths:
 		- src
+	stubFiles:
+		- stubs/stubs.php
 	scanDirectories:
 		- phar://PharBuilder/PocketMine-MP.phar
