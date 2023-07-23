@@ -1,0 +1,8 @@
+parameters:
+    level: 6
+    checkMissingIterableValueType: false
+    internalErrorsCountLimit: 10000
+    parallel:
+        processTimeout: 180.0
+    paths:
+        - src

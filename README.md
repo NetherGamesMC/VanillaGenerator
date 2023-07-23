@@ -1,4 +1,7 @@
 # VanillaGenerator
+
+**This fork requires the [ext-vanillagenerator](https://github.com/NetherGamesMC/extnoise) extension.**
+
 This is a port of [GlowstoneMC](https://github.com/GlowstoneMC/Glowstone)'s world generator.
 VanillaGenerator will register two world generator types when it loads — `vanilla_overworld` and `vanilla_nether`. Set the generator type of your world to any one of these to try them out.
 This can be done directly from `pocketmine.yml` like so:

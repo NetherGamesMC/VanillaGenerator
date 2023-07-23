@@ -1,0 +1,19 @@
+name: Auto Merge Dependabot
+
+on:
+  pull_request:
+    types: [assigned, opened, synchronize, reopened]
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    permissions: write-all
+    steps:
+      - id: automerge
+        name: automerge
+        uses: pascalgn/automerge-action@v0.15.6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MERGE_DELETE_BRANCH: true
+          MERGE_FILTER_AUTHOR: dependabot[bot]
+          MERGE_LABELS: ''
+          MERGE_METHOD: squash
