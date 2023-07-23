@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace muqsit\vanillagenerator\generator;
 
 use InvalidArgumentException;
+use pocketmine\data\bedrock\BiomeIds;
 use pocketmine\world\ChunkManager;
 use pocketmine\world\format\BiomeArray;
 use pocketmine\world\format\Chunk;
@@ -15,27 +16,25 @@ use pocketmine\world\World;
 use ReflectionException;
 use ReflectionObject;
 
-class OverworldGenerator extends Generator
-{
+class OverworldGenerator extends Generator {
 	/** @var \OverworldGenerator */
 	private \OverworldGenerator $generator;
 
-	public function __construct(int $seed, string $preset)
-	{
+	public function __construct(int $seed, string $preset){
 		parent::__construct($seed, $preset);
 
 		$enableUHC = false;
 
 		$presets = explode(':', $preset);
-		foreach ($presets as $preset) {
-			if (empty($preset)) continue;
+		foreach($presets as $preset){
+			if(empty($preset)) continue;
 
 			$settings = explode(',', $preset);
-			if (count($settings) < 2) {
+			if(count($settings) < 2){
 				throw new InvalidArgumentException("World preset must have a key and a value respectively");
 			}
 
-			switch ($settings[0]) {
+			switch($settings[0]){
 				case "isUHC":
 					$enableUHC = (int)$settings[1] === 1;
 					break;
@@ -48,79 +47,68 @@ class OverworldGenerator extends Generator
 		$this->generator = new \OverworldGenerator($seed, $enableUHC);
 	}
 
-	public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void
-	{
+	public function generateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void{
 		$chunk = $world->getChunk($chunkX, $chunkZ);
 
-		$biomeData = $chunk->getBiomeIdArray();
-		$pelletedEntries = [];
-
-		foreach ($chunk->getSubChunks() as $y => $subChunk) {
-			if (!$subChunk->isEmptyFast()) {
-				$pelletedEntries[$y] = $subChunk->getBlockLayers()[0];
-			} else {
-				$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
+		$palettedChunksArray = [];
+		$palettedBiomesArray = [];
+		foreach($chunk->getSubChunks() as $y => $subChunk){
+			if(!$subChunk->isEmptyFast()){
+				$palettedChunksArray[$y] = $subChunk->getBlockLayers()[0];
+				$palettedBiomesArray[$y] = $subChunk->getBiomeArray();
+			}else{
+				$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], new PalettedBlockArray(BiomeIds::OCEAN), $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
 				$chunk->setSubChunk($y, $newSubChunk);
 
-				$pelletedEntries[$y] = $newSubChunk->getBlockLayers()[0];
+				$palettedChunksArray[$y] = $newSubChunk->getBlockLayers()[0];
+				$palettedBiomesArray[$y] = $newSubChunk->getBiomeArray();
 			}
 		}
 
-		$biomes = $this->generator->generateChunk($pelletedEntries, $biomeData, World::chunkHash($chunkX, $chunkZ));
-
-		(function () use ($biomes): void {
-			/** @noinspection PhpUndefinedFieldInspection */
-			/** @phpstan-ignore-next-line */
-			$this->biomeIds = new BiomeArray($biomes);
-		})->call($chunk);
+		$this->generator->generateChunk($palettedChunksArray, $palettedBiomesArray, World::chunkHash($chunkX, $chunkZ));
 	}
 
 	/**
 	 * @throws ReflectionException
 	 */
-	public function populateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void
-	{
+	public function populateChunk(ChunkManager $world, int $chunkX, int $chunkZ): void{
 		$r = new ReflectionObject($world);
 		$p = $r->getProperty('chunks');
 		$p->setAccessible(true);
 
-		$biomeEntries = [];
-		$pelletedEntries = [];
-		$dirtyEntries = [];
+		$blockEntries = [];
 
 		/**
-		 * @var int $hash
+		 * @var int   $hash
 		 * @var Chunk $chunkVal
 		 */
-		foreach ($p->getValue($world) as $hash => $chunkVal) {
-			World::getXZ($hash, $x, $z);
-
+		foreach($p->getValue($world) as $hash => $chunkVal){
 			$array = [];
 
-			foreach ($chunkVal->getSubChunks() as $y => $subChunk) {
-				if (!$subChunk->isEmptyFast()) {
-					$array[$y] = $subChunk->getBlockLayers()[0];
-				} else {
-					$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
+			foreach($chunkVal->getSubChunks() as $y => $subChunk){
+				if(!$subChunk->isEmptyFast()){
+					$array[0][$y - Chunk::MIN_SUBCHUNK_INDEX] = $subChunk->getBlockLayers()[0];
+					$array[1][$y - Chunk::MIN_SUBCHUNK_INDEX] = $subChunk->getBiomeArray();
+				}else{
+					$newSubChunk = new SubChunk($subChunk->getEmptyBlockId(), [new PalettedBlockArray($subChunk->getEmptyBlockId())], new PalettedBlockArray(BiomeIds::OCEAN), $subChunk->getBlockSkyLightArray(), $subChunk->getBlockLightArray());
 					$chunkVal->setSubChunk($y, $newSubChunk);
 
-					$array[$y] = $newSubChunk->getBlockLayers()[0];
+					$array[0][$y - Chunk::MIN_SUBCHUNK_INDEX] = $newSubChunk->getBlockLayers()[0];
+					$array[1][$y - Chunk::MIN_SUBCHUNK_INDEX] = $newSubChunk->getBiomeArray();
 				}
 			}
 
-			$pelletedEntries[$hash] = $array;
-			$biomeEntries[$hash] = $chunkVal->getBiomeIdArray();
-			$dirtyEntries[$hash] = $chunkVal->isTerrainDirty();
+			$blockEntries[] = [$hash, $array, $chunkVal->isTerrainDirty()];
 		}
 
-		$this->generator->populateChunk($pelletedEntries, $biomeEntries, $dirtyEntries, World::chunkHash($chunkX, $chunkZ));
+		$this->generator->populateChunk($blockEntries, World::chunkHash($chunkX, $chunkZ));
 
-		foreach ($dirtyEntries as $hash => $dirtyEntry) {
+		foreach($blockEntries as [$hash, $array, $dirtyEntry]){
 			World::getXZ($hash, $x, $z);
 
-			if ($dirtyEntry) {
-				$c = $world->getChunk($x, $z);
+			$c = $world->getChunk($x, $z);
 
+			if($dirtyEntry){
 				$c->setTerrainDirtyFlag(Chunk::DIRTY_FLAG_BLOCKS, true);
 				$c->setTerrainDirtyFlag(Chunk::DIRTY_FLAG_BIOMES, true);
 			}

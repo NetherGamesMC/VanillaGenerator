@@ -4,10 +4,12 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"php": "^8.0"
+		"php": "^8.1",
+		"ext-vanillagenerator": "^2.1.1"
 	},
 	"require-dev": {
-		"phpstan/phpstan": "1.2.0"
+		"phpstan/phpstan": "1.2.0",
+		"pocketmine/pocketmine-mp": "^5.3.1"
 	},
 	"minimum-stability": "dev"
 }
