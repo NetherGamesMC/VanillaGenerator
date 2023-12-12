@@ -10,12 +10,12 @@ use pocketmine\block\Liquid;
 use pocketmine\block\VanillaBlocks;
 use pocketmine\plugin\PluginBase;
 use pocketmine\world\generator\GeneratorManager;
-use ReflectionException;
 use ReflectionMethod;
+use Throwable;
 
 final class Loader extends PluginBase {
 
-	private const EXT_MCGENERATOR_VERSION = "2.1.1";
+	private const EXT_MCGENERATOR_VERSION = "2.1.5";
 
 	public function onLoad(): void{
 		if(!extension_loaded('vanillagenerator')){
@@ -63,7 +63,7 @@ final class Loader extends PluginBase {
 					$value |= ($block->getLightLevel() << 4);
 
 					\OverworldGenerator::registerBlock($block->getIdInfo()->getBlockTypeId(), $blockMeta, $value);
-				}catch(ReflectionException){
+				}catch(Throwable){
 				}
 			}
 		}
